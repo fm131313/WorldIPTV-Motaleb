@@ -1,0 +1,6 @@
+{
+  "name": "IPTV Live TV Platform",
+  "description": "A full-stack live-TV streaming web platform cataloging and playing public IPTV channels worldwide, with priority for Bangladeshi content, category filters, and custom playlist imports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

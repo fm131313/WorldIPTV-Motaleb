@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // Defensively make window.fetch configurable with getter and setter 
+      // to prevent "TypeError: Cannot set property fetch of #<Window> which has only a getter" 
+      // from crashing the application in sandbox/iframe environments or tools.
+      (function() {
+        try {
+          const nativeFetch = window.fetch;
+          let currentFetch = nativeFetch;
+          Object.defineProperty(window, 'fetch', {
+            get() {
+              return currentFetch;
+            },
+            set(newFetch) {
+              currentFetch = newFetch;
+            },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (err) {
+          console.warn("Failed to apply window.fetch safety trap:", err);
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IPTV Live TV Stream Platform</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
