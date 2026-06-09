@@ -1,11 +1,9 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React, { useEffect, useRef, useState } from "react";
-import Hls from "hls.js";
-import { Play, Pause, Volume2, VolumeX, Maximize, RefreshCw, AlertTriangle, ShieldCheck, Zap, Activity } from "lucide-react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import Hls, { Level } from "hls.js";
+import {
+  Play, Pause, Volume2, VolumeX, Maximize, Minimize,
+  RefreshCw, AlertTriangle, Settings, Wifi, WifiOff, Radio
+} from "lucide-react";
 import { IPTVChannel } from "../types";
 
 interface HLSLivePlayerProps {
@@ -16,162 +14,118 @@ interface HLSLivePlayerProps {
 
 export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusChecked }: HLSLivePlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
-  
-  // Player state
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [isMuted, setIsMuted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [isTheaterMode, setIsTheaterMode] = useState(false);
-
-  // Stream Metrics
-  const [pingLatency, setPingLatency] = useState<number | null>(channel.latencyMs || null);
-  const [checkingHealth, setCheckingHealth] = useState(false);
-  const [streamHealthy, setStreamHealthy] = useState<boolean | null>(channel.isHealthy !== undefined ? channel.isHealthy : null);
-
-  // Trigger stream loading
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const [showQuality, setShowQuality] = useState(false);
+  const [qualityLevels, setQualityLevels] = useState<Level[]>([]);
+  const [currentLevel, setCurrentLevel] = useState<number>(-1);
+  const [streamHealthy, setStreamHealthy] = useState<boolean | null>(null);
+  const [pingLatency, setPingLatency] = useState<number | null>(null);
   const isMountedRef = useRef(true);
+
+  const resetHideTimer = useCallback(() => {
+    setShowControls(true);
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    hideTimer.current = setTimeout(() => {
+      if (isPlaying) setShowControls(false);
+    }, 3000);
+  }, [isPlaying]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
 
   useEffect(() => {
     isMountedRef.current = true;
     setIsLoading(true);
     setErrorMsg(null);
     setIsPlaying(false);
+    setQualityLevels([]);
+    setCurrentLevel(-1);
+    setStreamHealthy(null);
 
     const video = videoRef.current;
     if (!video) return;
 
-    // Reset stream tracking metrics
-    setPingLatency(channel.latencyMs || null);
-    setStreamHealthy(channel.isHealthy !== undefined ? channel.isHealthy : null);
-
-    // Save playing event back to express history DB
     fetch("/api/history", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ channelId: channel.id })
-    })
-      .then(() => {
-        if (isMountedRef.current) onPlaySuccess?.();
-      })
-      .catch((err) => console.error("Error logging history:", err));
+    }).then(() => { if (isMountedRef.current) onPlaySuccess?.(); }).catch(() => {});
 
-    // Cleanup previous hls stream
-    if (hlsRef.current) {
-      hlsRef.current.destroy();
-      hlsRef.current = null;
-    }
+    if (hlsRef.current) { hlsRef.current.destroy(); hlsRef.current = null; }
 
     const playVideo = async () => {
       if (!isMountedRef.current) return;
       try {
         await video.play();
-        if (isMountedRef.current) {
-          setIsPlaying(true);
-        }
-      } catch (err) {
-        console.warn("Autoplay block or playback interruption:", err);
-        if (isMountedRef.current) {
-          setIsPlaying(false);
-        }
+        if (isMountedRef.current) setIsPlaying(true);
+      } catch {
+        if (isMountedRef.current) setIsPlaying(false);
       }
     };
 
-    if (Hls.isSupported() && channel.streamUrl.includes(".m3u8")) {
-      const hls = new Hls({
-        maxMaxBufferLength: 10,
-        enableWorker: true,
-        lowLatencyMode: true,
-      });
+    if (Hls.isSupported()) {
+      const hls = new Hls({ maxMaxBufferLength: 10, enableWorker: true, lowLatencyMode: true });
       hlsRef.current = hls;
-
       hls.loadSource(channel.streamUrl);
       hls.attachMedia(video);
 
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        if (isMountedRef.current) {
-          setIsLoading(false);
-          playVideo();
-        }
+      hls.on(Hls.Events.MANIFEST_PARSED, (_, data) => {
+        if (!isMountedRef.current) return;
+        setQualityLevels(data.levels || []);
+        setCurrentLevel(hls.currentLevel);
+        setIsLoading(false);
+        playVideo();
       });
 
-      hls.on(Hls.Events.ERROR, (event, data) => {
+      hls.on(Hls.Events.LEVEL_SWITCHED, (_, data) => {
+        if (isMountedRef.current) setCurrentLevel(data.level);
+      });
+
+      hls.on(Hls.Events.ERROR, (_, data) => {
         if (!isMountedRef.current) return;
         if (data.fatal) {
-          console.warn("Fatal HLS error encountered:", data.type);
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hls.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hls.recoverMediaError();
-              break;
-            default:
-              setErrorMsg("Playback error: Live stream offline or network restricted.");
-              setIsLoading(false);
-              setStreamHealthy(false);
-              hls.destroy();
-              break;
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
+          else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+          else {
+            setErrorMsg("Live stream offline or network restricted.");
+            setIsLoading(false);
+            setStreamHealthy(false);
+            hls.destroy();
           }
         }
       });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      // Native Safari support
       video.src = channel.streamUrl;
-      const onLoadedMetadata = () => {
-        if (isMountedRef.current) {
-          setIsLoading(false);
-          playVideo();
-        }
-      };
-      const onError = () => {
-        if (isMountedRef.current) {
-          setErrorMsg("Native video error: failed to stream this link.");
-          setIsLoading(false);
-          setStreamHealthy(false);
-        }
-      };
-      video.addEventListener("loadedmetadata", onLoadedMetadata);
-      video.addEventListener("error", onError);
+      video.addEventListener("loadedmetadata", () => { if (isMountedRef.current) { setIsLoading(false); playVideo(); } });
+      video.addEventListener("error", () => { if (isMountedRef.current) { setErrorMsg("Native video error."); setIsLoading(false); } });
     } else {
-      // General format fallback or direct mp4 wrapper
       video.src = channel.streamUrl;
-      const onLoadedMetadata = () => {
-        if (isMountedRef.current) {
-          setIsLoading(false);
-          playVideo();
-        }
-      };
-      const onError = () => {
-        if (isMountedRef.current) {
-          setErrorMsg("This browser does not support HLS stream decoding. Try playing with Safari, Chrome or Firefox.");
-          setIsLoading(false);
-          setStreamHealthy(false);
-        }
-      };
-      video.addEventListener("loadedmetadata", onLoadedMetadata);
-      video.addEventListener("error", onError);
+      video.addEventListener("loadedmetadata", () => { if (isMountedRef.current) { setIsLoading(false); playVideo(); } });
+      video.addEventListener("error", () => { if (isMountedRef.current) { setErrorMsg("Browser does not support HLS. Try Chrome or Firefox."); setIsLoading(false); } });
     }
 
     return () => {
       isMountedRef.current = false;
-      if (hlsRef.current) {
-        hlsRef.current.destroy();
-        hlsRef.current = null;
-      }
-      try {
-        video.pause();
-        video.removeAttribute("src");
-        video.load();
-      } catch (e) {
-        console.warn("Error resetting video element during state cleanup:", e);
-      }
+      if (hlsRef.current) { hlsRef.current.destroy(); hlsRef.current = null; }
+      try { video.pause(); video.removeAttribute("src"); video.load(); } catch {}
     };
   }, [channel.streamUrl, channel.id]);
 
-  // Audio configuration updates
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -182,13 +136,9 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
   const togglePlay = () => {
     const video = videoRef.current;
     if (!video) return;
-
-    if (isPlaying) {
-      video.pause();
-      setIsPlaying(false);
-    } else {
-      video.play().then(() => setIsPlaying(true)).catch((err) => console.error(err));
-    }
+    if (isPlaying) { video.pause(); setIsPlaying(false); }
+    else { video.play().then(() => setIsPlaying(true)).catch(() => {}); }
+    resetHideTimer();
   };
 
   const handleReload = () => {
@@ -196,209 +146,228 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     setErrorMsg(null);
     const video = videoRef.current;
     if (video) {
-      video.load();
-      if (hlsRef.current) {
-        hlsRef.current.loadSource(channel.streamUrl);
-      }
+      if (hlsRef.current) hlsRef.current.loadSource(channel.streamUrl);
+      else { video.load(); }
       video.play().then(() => setIsPlaying(true)).catch(() => {});
     }
   };
 
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value);
-    setVolume(val);
-    if (val > 0) setIsMuted(false);
-  };
-
   const handleFullscreen = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.requestFullscreen) {
-      video.requestFullscreen();
-    } else if ((video as any).webkitRequestFullscreen) {
-      (video as any).webkitRequestFullscreen(); // Safari
-    }
+    const el = containerRef.current;
+    if (!el) return;
+    if (!document.fullscreenElement) el.requestFullscreen?.();
+    else document.exitFullscreen?.();
   };
 
-  // Run a stream health check on the Express backend!
+  const setQuality = (level: number) => {
+    if (hlsRef.current) {
+      hlsRef.current.currentLevel = level;
+      setCurrentLevel(level);
+    }
+    setShowQuality(false);
+  };
+
+  const getQualityLabel = (level: number) => {
+    if (level === -1) return "Auto";
+    const l = qualityLevels[level];
+    if (!l) return "Auto";
+    return l.height ? `${l.height}p` : `Level ${level + 1}`;
+  };
+
   const triggerHealthCheck = async () => {
-    setCheckingHealth(true);
     try {
       const res = await fetch(`/api/health-check?url=${encodeURIComponent(channel.streamUrl)}`);
       const data = await res.json();
       setStreamHealthy(data.isHealthy);
-      if (data.isHealthy) {
-        setPingLatency(data.latencyMs || 250);
-        onStreamStatusChecked?.(true, data.latencyMs);
-      } else {
-        setPingLatency(null);
-        onStreamStatusChecked?.(false);
-      }
-    } catch (err) {
+      setPingLatency(data.latencyMs || null);
+      onStreamStatusChecked?.(data.isHealthy, data.latencyMs);
+    } catch {
       setStreamHealthy(false);
-      setPingLatency(null);
       onStreamStatusChecked?.(false);
-    } finally {
-      setCheckingHealth(false);
     }
   };
 
   return (
-    <div id="video-stage" className={`relative rounded-xl overflow-hidden bg-slate-950 border border-slate-800 transition-all duration-300 ${isTheaterMode ? "col-span-full" : ""}`}>
-      {/* Aspect ratio frame */}
-      <div className="relative aspect-video w-full">
-        {/* Actual Video Element */}
-        <video
-          id="live-player-element"
-          ref={videoRef}
-          className="w-full h-full object-contain"
-          playsInline
-          onClick={togglePlay}
-        />
+    <div
+      ref={containerRef}
+      className="relative w-full bg-black rounded-xl overflow-hidden group"
+      style={{ aspectRatio: "16/9" }}
+      onMouseMove={resetHideTimer}
+      onMouseLeave={() => { if (isPlaying) setShowControls(false); }}
+      onMouseEnter={() => setShowControls(true)}
+    >
+      {/* Video Element */}
+      <video
+        ref={videoRef}
+        className="w-full h-full object-contain"
+        playsInline
+        onClick={togglePlay}
+        style={{ cursor: showControls ? "default" : "none" }}
+      />
 
-        {/* Loading Spinner */}
-        {isLoading && !errorMsg && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/80 z-20">
-            <RefreshCw className="w-12 h-12 text-indigo-500 animate-spin mb-3" />
-            <p className="text-sm font-mono text-slate-300">Establishing stream handshake...</p>
-            <p className="text-xs text-slate-500 mt-1">Connecting to feed: {channel.name}</p>
+      {/* Loading Overlay */}
+      {isLoading && !errorMsg && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 z-20">
+          <div className="w-14 h-14 rounded-full border-4 border-violet-500/30 border-t-violet-500 animate-spin mb-4" />
+          <p className="text-sm font-medium text-white">Loading stream...</p>
+          <p className="text-xs text-slate-400 mt-1">{channel.name}</p>
+        </div>
+      )}
+
+      {/* Error Overlay */}
+      {errorMsg && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 z-20 p-6 text-center">
+          <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
+            <AlertTriangle className="w-8 h-8 text-red-400" />
           </div>
-        )}
+          <h4 className="text-base font-semibold text-white mb-2">Stream Unavailable</h4>
+          <p className="text-xs text-slate-400 max-w-xs">{errorMsg}</p>
+          <div className="flex gap-3 mt-5">
+            <button onClick={handleReload} className="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold rounded-lg flex items-center gap-2 transition cursor-pointer">
+              <RefreshCw className="w-3.5 h-3.5" /> Retry
+            </button>
+            <button onClick={triggerHealthCheck} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold rounded-lg flex items-center gap-2 transition cursor-pointer">
+              <Wifi className="w-3.5 h-3.5" /> Check Stream
+            </button>
+          </div>
+        </div>
+      )}
 
-        {/* Error State Overlay */}
-        {errorMsg && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/95 z-20 p-6 text-center">
-            <AlertTriangle className="w-14 h-14 text-red-500 mb-4" />
-            <h4 className="text-lg font-display font-semibold text-slate-200">Stream Connection Offline</h4>
-            <p className="text-xs text-slate-400 max-w-md mt-2 leading-relaxed">
-              {errorMsg}
-            </p>
-            <p className="text-xs text-indigo-400 mt-1 font-mono">{channel.streamUrl}</p>
-            <div className="flex gap-4 mt-6">
-              <button
-                id="btn-retry-player"
-                onClick={handleReload}
-                className="px-4 py-2 bg-slate-800 hover:bg-indigo-600 hover:text-white rounded-lg flex items-center gap-2 text-xs font-medium border border-slate-700 transition"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-                Reload Stream
-              </button>
-              <button
-                id="btn-healthcheck-player"
-                onClick={triggerHealthCheck}
-                disabled={checkingHealth}
-                className="px-4 py-2 bg-indigo-950 text-indigo-300 hover:bg-slate-800 rounded-lg flex items-center gap-2 text-xs font-medium border border-indigo-900 transition"
-              >
-                <Activity className="w-3.5 h-3.5" />
-                {checkingHealth ? "Pinging Server..." : "Check Stream Route"}
-              </button>
+      {/* Top Bar - Channel info overlay */}
+      <div className={`absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent z-10 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            {channel.logo ? (
+              <img src={channel.logo} alt={channel.name} referrerPolicy="no-referrer"
+                className="w-8 h-8 rounded object-contain bg-white/10"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
+              />
+            ) : null}
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                  <Radio className="w-2.5 h-2.5" /> Live
+                </span>
+                <span className="text-white font-semibold text-sm">{channel.name}</span>
+              </div>
+              <p className="text-slate-400 text-xs">{channel.country} • {channel.category}</p>
             </div>
           </div>
-        )}
 
-        {/* Header HUD overlay */}
-        <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
-          <div className="flex items-center gap-2.5 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-800/40">
-            <span className="w-2 h-2 rounded-full bg-red-500 live-pulse" />
-            <span className="text-xs uppercase font-mono tracking-widest text-slate-200 font-medium">LIVE BROADCAST</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {/* Stream Health Indicator */}
-            <span className="flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-800/40 text-xs font-mono">
-              <Activity className={`w-3.5 h-3.5 ${streamHealthy === false ? "text-yellow-500" : "text-green-500"}`} />
-              <button 
-                onClick={(e) => { e.preventDefault(); triggerHealthCheck(); }} 
-                disabled={checkingHealth}
-                className="pointer-events-auto text-slate-300 hover:text-indigo-400 font-semibold focus:outline-none"
-              >
-                {checkingHealth ? "Checking..." : streamHealthy === false ? "Dead Feed" : streamHealthy === true ? `${pingLatency ? pingLatency + 'ms' : 'Healthy'}` : "Check Health"}
-              </button>
+          {/* Health indicator */}
+          <button onClick={triggerHealthCheck} className="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded-full text-xs cursor-pointer">
+            {streamHealthy === false
+              ? <WifiOff className="w-3 h-3 text-red-400" />
+              : <Wifi className="w-3 h-3 text-green-400" />}
+            <span className={streamHealthy === false ? "text-red-400" : "text-green-400"}>
+              {streamHealthy === false ? "Offline" : pingLatency ? `${pingLatency}ms` : "Live"}
             </span>
-
-            {/* Resolution/Quality tag */}
-            <span className="bg-slate-900/80 backdrop-blur-md px-2.5 py-1.5 rounded-md border border-slate-800/40 text-[10px] font-mono font-bold text-indigo-400">
-              {channel.resolution || "AUTO"}
-            </span>
-          </div>
+          </button>
         </div>
       </div>
 
-      {/* Control bar */}
-      <div className="bg-slate-900 border-t border-slate-800 p-4 flex items-center justify-between text-slate-300">
-        <div className="flex items-center gap-4">
-          <button
-            id="control-btn-play"
-            onClick={togglePlay}
-            className="p-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition shadow-md"
-            title={isPlaying ? "Pause" : "Play"}
-          >
-            {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
-          </button>
+      {/* Center Play/Pause on click feedback */}
+      {!isLoading && !errorMsg && (
+        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+          {!isPlaying && (
+            <div className="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center">
+              <Play className="w-8 h-8 text-white fill-white ml-1" />
+            </div>
+          )}
+        </div>
+      )}
 
-          <button
-            id="control-btn-reload"
-            onClick={handleReload}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition border border-slate-700"
-            title="Refresh stream feed"
-          >
-            <RefreshCw className="w-4 h-4" />
-          </button>
+      {/* Bottom Controls Bar */}
+      <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-4 pt-8 pb-3 z-10 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}>
+        {/* Live progress bar */}
+        <div className="w-full h-1 bg-white/20 rounded-full mb-3 relative overflow-hidden">
+          <div className="absolute left-0 top-0 h-full bg-red-500 rounded-full" style={{ width: "100%" }} />
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-red-500 shadow-lg" style={{ right: 0 }} />
+        </div>
 
-          {/* Volume control */}
+        <div className="flex items-center justify-between gap-3">
+          {/* Left controls */}
           <div className="flex items-center gap-2">
-            <button
-              id="control-btn-mute"
-              onClick={toggleMute}
-              className="p-2 text-slate-400 hover:text-white transition"
-            >
-              {isMuted || volume === 0 ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            <button onClick={togglePlay} className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 text-white transition cursor-pointer">
+              {isPlaying
+                ? <Pause className="w-5 h-5 fill-white" />
+                : <Play className="w-5 h-5 fill-white ml-0.5" />}
             </button>
-            <input
-              id="volume-slider-input"
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              value={isMuted ? 0 : volume}
-              onChange={handleVolumeChange}
-              className="w-20 accent-indigo-500 h-1 rounded bg-slate-700 appearance-none cursor-pointer"
-            />
+
+            <button onClick={handleReload} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white transition cursor-pointer">
+              <RefreshCw className="w-4 h-4" />
+            </button>
+
+            {/* Volume */}
+            <div className="flex items-center gap-1.5 group/vol">
+              <button onClick={() => setIsMuted(!isMuted)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white transition cursor-pointer">
+                {isMuted || volume === 0 ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </button>
+              <input
+                type="range" min="0" max="1" step="0.05"
+                value={isMuted ? 0 : volume}
+                onChange={(e) => { setVolume(parseFloat(e.target.value)); if (parseFloat(e.target.value) > 0) setIsMuted(false); }}
+                className="w-0 group-hover/vol:w-20 transition-all duration-200 accent-white h-1 rounded cursor-pointer overflow-hidden"
+              />
+            </div>
+
+            {/* Live badge */}
+            <span className="flex items-center gap-1 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              Live
+            </span>
           </div>
-        </div>
 
-        {/* Title HUD */}
-        <div className="hidden md:block text-center max-w-sm truncate">
-          <span className="text-xs font-medium text-slate-400">{channel.country} • {channel.category}</span>
-          <h4 className="text-sm font-semibold text-slate-200 mt-0.5">{channel.name}</h4>
-        </div>
+          {/* Right controls */}
+          <div className="flex items-center gap-2">
+            {/* Quality selector */}
+            {qualityLevels.length > 0 && (
+              <div className="relative">
+                <button
+                  onClick={() => setShowQuality(!showQuality)}
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition cursor-pointer"
+                >
+                  <Settings className="w-3.5 h-3.5" />
+                  {getQualityLabel(currentLevel)}
+                </button>
+                {showQuality && (
+                  <div className="absolute bottom-full right-0 mb-2 bg-[#1a1a2e] border border-white/10 rounded-lg overflow-hidden shadow-xl min-w-[100px]">
+                    <div className="px-3 py-2 border-b border-white/10">
+                      <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Quality</span>
+                    </div>
+                    <button
+                      onClick={() => setQuality(-1)}
+                      className={`w-full text-left px-3 py-2 text-xs transition cursor-pointer ${currentLevel === -1 ? "text-violet-400 font-semibold" : "text-slate-300 hover:bg-white/5"}`}
+                    >
+                      Auto
+                    </button>
+                    {qualityLevels.map((lvl, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setQuality(i)}
+                        className={`w-full text-left px-3 py-2 text-xs transition cursor-pointer ${currentLevel === i ? "text-violet-400 font-semibold" : "text-slate-300 hover:bg-white/5"}`}
+                      >
+                        {lvl.height ? `${lvl.height}p` : `Level ${i + 1}`}
+                        {lvl.bitrate ? <span className="text-slate-500 ml-1">({Math.round(lvl.bitrate / 1000)}k)</span> : null}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
-        <div className="flex items-center gap-3">
-          <button
-            id="control-btn-theater"
-            onClick={() => setIsTheaterMode(!isTheaterMode)}
-            className={`px-3 py-1.5 text-xs rounded-lg font-mono tracking-wider border transition ${
-              isTheaterMode
-                ? "bg-indigo-900 border-indigo-700 text-indigo-300"
-                : "bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white"
-            }`}
-            title="Theater Mode"
-          >
-            [THEATER]
-          </button>
+            {/* Resolution badge */}
+            {channel.resolution && (
+              <span className="px-2 py-0.5 bg-white/10 text-white text-[10px] font-bold rounded uppercase">
+                {channel.resolution}
+              </span>
+            )}
 
-          <button
-            id="control-btn-fullscreen"
-            onClick={handleFullscreen}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition border border-slate-700"
-            title="Fullscreen"
-          >
-            <Maximize className="w-4 h-4" />
-          </button>
+            {/* Fullscreen */}
+            <button onClick={handleFullscreen} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 text-white transition cursor-pointer">
+              {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+            </button>
+          </div>
         </div>
       </div>
     </div>
