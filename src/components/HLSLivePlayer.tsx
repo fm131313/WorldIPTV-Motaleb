@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Hls, { Level } from "hls.js";
+import { proxyLogo } from "../utils/logoProxy";
 import {
   Play, Pause, Volume2, VolumeX, Maximize, Minimize,
   RefreshCw, AlertTriangle, Settings, Wifi, WifiOff, Radio
@@ -238,7 +239,7 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             {channel.logo ? (
-              <img src={channel.logo} alt={channel.name} referrerPolicy="no-referrer"
+              <img src={proxyLogo(channel.logo)} alt={channel.name}
                 className="w-8 h-8 rounded object-contain bg-white/10"
                 onError={(e) => { e.currentTarget.style.display = "none"; }}
               />

@@ -10,6 +10,7 @@ import http from "http";
 import https from "https";
 import { createServer as createViteServer } from "vite";
 import { STABLE_CHANNELS } from "./src/seedChannels";
+import { getWikiTitle } from "./src/channelLogoMap";
 import { IPTVChannel, EPGItem, PlaybackHistory, UserFavorite } from "./src/types";
 
 // Setup storage directories for persistent data
@@ -159,6 +160,8 @@ async function loadIptvOrgData() {
         channelMap.set(ch.id, ch);
       });
 
+      // Deduplicated channels map (one stream per channel ID — first valid one wins)
+      const seenIds = new Set<string>();
       const parsedChannels: IPTVChannel[] = [];
       
       // We process streams and map to full channel objects
@@ -166,6 +169,13 @@ async function loadIptvOrgData() {
         if (!stream.channel || !stream.url) return;
         const channelMeta = channelMap.get(stream.channel);
         if (!channelMeta) return;
+
+        const channelId = `iptvorg-${channelMeta.id}`;
+        // Skip duplicate channel IDs — keep first valid stream only
+        if (seenIds.has(channelId)) return;
+
+        // Filter out obviously bad URLs
+        if (stream.url.startsWith("rtsp") || stream.url.includes("paywall")) return;
 
         // Map category
         let category = "General";
@@ -181,17 +191,17 @@ async function loadIptvOrgData() {
         }
 
         const countryCode = (channelMeta.country || "US").toUpperCase();
-        let country = COUNTRY_NAMES[countryCode] || channelMeta.country || "International";
-
+        const country = COUNTRY_NAMES[countryCode] || channelMeta.country || "International";
         const language = channelMeta.languages && channelMeta.languages.length > 0 ? channelMeta.languages[0] : "English";
 
-        // Filter out obviously outdated or blocked URLs
-        if (stream.url.startsWith("rtsp") || stream.url.includes("paywall")) return;
+        // Use logo from API (iptv-org API generally returns empty logos)
+        const logo = channelMeta.logo || undefined;
 
+        seenIds.add(channelId);
         parsedChannels.push({
-          id: `iptvorg-${channelMeta.id}`,
+          id: channelId,
           name: channelMeta.name,
-          logo: channelMeta.logo || undefined,
+          logo,
           country,
           countryCode,
           category,
@@ -580,6 +590,115 @@ async function startServer() {
     } catch (err: any) {
       res.json({ url: streamUrl, isHealthy: false, error: `Invalid stream URL: ${err.message}` });
     }
+  });
+
+  // Wikipedia logo lookup — lazy lookup & persistent cache for channel logos
+  const LOGO_CACHE_FILE = path.join(DATA_DIR, "logo_cache.json");
+  let logoLookupCache: Record<string, string | null> = readJsonFile(LOGO_CACHE_FILE, {});
+
+  app.get("/api/wiki-logo", async (req, res) => {
+    const name = (req.query.name as string || "").trim();
+    if (!name) return res.json({ logoUrl: null });
+
+    const cacheKey = name.toLowerCase();
+
+    // 1. Check persistent cache
+    if (Object.prototype.hasOwnProperty.call(logoLookupCache, cacheKey)) {
+      return res.json({ logoUrl: logoLookupCache[cacheKey] });
+    }
+
+    // 2. Use title override if available, then try Wikipedia page summary API
+    const wikiTitle = getWikiTitle(name);
+    let logoUrl: string | null = null;
+
+    const tryWikiSummary = (title: string): Promise<string | null> =>
+      new Promise((resolve) => {
+        const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+        https.get(url, { headers: { "User-Agent": "VistaTV/1.0" } }, (r) => {
+          let d = "";
+          r.on("data", c => d += c);
+          r.on("end", () => {
+            try {
+              const json = JSON.parse(d);
+              resolve(json.thumbnail?.source || null);
+            } catch { resolve(null); }
+          });
+          r.setTimeout(6000, () => { r.destroy(); resolve(null); });
+        }).on("error", () => resolve(null));
+      });
+
+    try {
+      // Try with the override title first, then original name
+      logoUrl = await tryWikiSummary(wikiTitle);
+      if (!logoUrl && wikiTitle !== name) {
+        logoUrl = await tryWikiSummary(name);
+      }
+
+      logoLookupCache[cacheKey] = logoUrl;
+      writeJsonFile(LOGO_CACHE_FILE, logoLookupCache);
+      return res.json({ logoUrl });
+    } catch {
+      logoLookupCache[cacheKey] = null;
+      writeJsonFile(LOGO_CACHE_FILE, logoLookupCache);
+      return res.json({ logoUrl: null });
+    }
+  });
+
+  // Logo proxy — fetches logos server-side to bypass browser CORS restrictions
+  app.get("/api/logo-proxy", (req, res) => {
+    const url = req.query.url as string;
+    if (!url || !url.startsWith("http")) {
+      return res.status(400).end();
+    }
+
+    let finished = false;
+    const finish = (fn: () => void) => {
+      if (finished) return;
+      finished = true;
+      fn();
+    };
+
+    const fetchUrl = (targetUrl: string, redirectsLeft = 2) => {
+      let parsed: URL;
+      try { parsed = new URL(targetUrl); } catch { return finish(() => res.status(400).end()); }
+
+      const lib = parsed.protocol === "https:" ? https : http;
+      const req2 = lib.get(targetUrl, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (compatible; VistaTV/1.0)",
+          "Accept": "image/*,*/*;q=0.8",
+        },
+        timeout: 7000,
+      }, (upstream) => {
+        const status = upstream.statusCode || 200;
+
+        // Handle redirects
+        if ((status === 301 || status === 302 || status === 307 || status === 308) && upstream.headers.location && redirectsLeft > 0) {
+          upstream.resume();
+          const loc = upstream.headers.location;
+          const next = loc.startsWith("http") ? loc : `${parsed.origin}${loc}`;
+          return fetchUrl(next, redirectsLeft - 1);
+        }
+
+        if (status >= 400) {
+          upstream.resume();
+          return finish(() => res.status(status >= 500 ? 502 : 404).end());
+        }
+
+        finish(() => {
+          const ct = upstream.headers["content-type"] || "image/png";
+          res.set("Content-Type", ct);
+          res.set("Cache-Control", "public, max-age=86400");
+          res.set("Access-Control-Allow-Origin", "*");
+          upstream.pipe(res);
+        });
+      });
+
+      req2.on("error", () => finish(() => res.status(502).end()));
+      req2.on("timeout", () => { req2.destroy(); finish(() => res.status(504).end()); });
+    };
+
+    fetchUrl(url);
   });
 
   // Get Mock EPG guide data for any channel in real or local time!

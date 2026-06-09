@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Heart, Share2, Download, ArrowLeft, Tag, Globe, Radio } from "lucide-react";
+import { proxyLogo } from "../utils/logoProxy";
 import { IPTVChannel } from "../types";
 import HLSLivePlayer from "./HLSLivePlayer";
 import EPGSchedule from "./EPGSchedule";
@@ -67,9 +68,8 @@ export default function WatchPage({
               <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
                 {channel.logo ? (
                   <img
-                    src={channel.logo}
+                    src={proxyLogo(channel.logo)}
                     alt={channel.name}
-                    referrerPolicy="no-referrer"
                     className="max-w-full max-h-full object-contain"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";

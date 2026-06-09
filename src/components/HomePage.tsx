@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Search, ChevronRight, ChevronLeft, Tv, Zap, Wifi, Globe as GlobeIcon } from "lucide-react";
+import { proxyLogo } from "../utils/logoProxy";
 import { IPTVChannel, CountryMetadata, CategoryMetadata } from "../types";
 import ChannelCard from "./ChannelCard";
 
@@ -92,7 +93,7 @@ export default function HomePage({
             {/* Background channel logo */}
             {hero.logo && (
               <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-20">
-                <img src={hero.logo} alt="" referrerPolicy="no-referrer" className="w-64 h-40 object-contain" onError={e => { e.currentTarget.style.display = "none"; }} />
+                <img src={proxyLogo(hero.logo)} alt="" className="w-64 h-40 object-contain" onError={e => { e.currentTarget.style.display = "none"; }} />
               </div>
             )}
 
