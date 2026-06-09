@@ -8,7 +8,6 @@ import path from "path";
 import fs from "fs";
 import http from "http";
 import https from "https";
-import { createServer as createViteServer } from "vite";
 import { STABLE_CHANNELS } from "./src/seedChannels";
 import { getWikiTitle } from "./src/channelLogoMap";
 import { IPTVChannel, EPGItem, PlaybackHistory, UserFavorite } from "./src/types";
@@ -793,7 +792,8 @@ async function startServer() {
 
   // --- VITE MIDDLEWARE CONFIGURATION ---
   if (process.env.NODE_ENV !== "production") {
-    // DEV MODE
+    // DEV MODE — dynamic import so vite is never required in production builds
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
