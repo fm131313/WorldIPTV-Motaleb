@@ -6,7 +6,7 @@ import HomePage from "./components/HomePage";
 import WatchPage from "./components/WatchPage";
 import ChannelCard from "./components/ChannelCard";
 import M3UPlaylistImporter from "./components/M3UPlaylistImporter";
-import { Heart, Search, Download, Tv, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, Search, Download, Tv, Clock, ChevronLeft, ChevronRight, Home, Globe, Menu, List } from "lucide-react";
 
 // ─── Hash Routing helpers ───────────────────────────────────────────────────
 function getRoute(): { path: string; channelId?: string } {
@@ -30,6 +30,9 @@ function getFlagEmoji(code: string) {
 export default function App() {
   // ─── Router state ────────────────────────────────────────────────────────
   const [route, setRouteState] = useState(getRoute());
+
+  // ─── Sidebar state ───────────────────────────────────────────────────────
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // ─── Data state ──────────────────────────────────────────────────────────
   const [channels, setChannels] = useState<IPTVChannel[]>([]);
@@ -63,6 +66,7 @@ export default function App() {
   const navigate = useCallback((path: string) => {
     setRoute(path);
     setRouteState(getRoute());
+    setSidebarOpen(false);
   }, []);
 
   // ─── Channel selection (sets active + navigates) ─────────────────────────
@@ -74,14 +78,12 @@ export default function App() {
   // ─── On route change to /watch/:id, resolve channel from all channels ────
   useEffect(() => {
     if (route.path === "/watch" && route.channelId) {
-      // Try to find in loaded channels first
       const found =
         channels.find(c => c.id === route.channelId) ||
         STABLE_CHANNELS.find(c => c.id === route.channelId);
       if (found) {
         setActiveChannel(found);
       } else if (route.channelId) {
-        // Fetch from API if not loaded yet
         fetch(`/api/channels/${encodeURIComponent(route.channelId)}`)
           .then(r => r.json())
           .then(data => { if (data && data.id) setActiveChannel(data); })
@@ -128,9 +130,7 @@ export default function App() {
     try {
       const res = await fetch("/api/favorites");
       const data = await res.json();
-      if (Array.isArray(data)) {
-        setFavorites(data);
-      }
+      if (Array.isArray(data)) setFavorites(data);
     } catch {}
   }, []);
 
@@ -182,10 +182,32 @@ export default function App() {
   return (
     <div className="flex min-h-screen bg-[#0a0a14] text-white font-sans">
       {/* Sidebar */}
-      <Sidebar currentRoute={path} onNavigate={navigate} />
+      <Sidebar
+        currentRoute={path}
+        onNavigate={navigate}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
-      {/* Main content (offset by sidebar width) */}
-      <div className="flex-1 ml-56 min-h-screen overflow-y-auto">
+      {/* Main content */}
+      <div className="flex-1 md:ml-56 min-h-screen overflow-y-auto pb-16 md:pb-0">
+        {/* Mobile top bar */}
+        <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#0d0d1a] sticky top-0 z-30">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
+              <Tv className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-white font-bold text-base">VistaTV</span>
+          </div>
+          <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-sm">A</div>
+        </div>
+
         {/* Import success notice */}
         {importNotice && (
           <div className="fixed top-4 right-4 z-50 bg-emerald-600 text-white text-sm px-4 py-3 rounded-xl shadow-lg flex items-center gap-2">
@@ -300,7 +322,7 @@ export default function App() {
 
         {/* ── FAVORITES ── */}
         {path === "/favorites" && (
-          <div className="p-6 space-y-6">
+          <div className="p-4 md:p-6 space-y-6">
             <div className="flex items-center gap-3">
               <Heart className="w-5 h-5 text-pink-400" />
               <h1 className="text-xl font-bold">My Favorites</h1>
@@ -313,7 +335,7 @@ export default function App() {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
                   {favorites.map(ch => (
                     <ChannelCard key={ch.id} channel={ch} onClick={selectChannel} />
                   ))}
@@ -331,7 +353,7 @@ export default function App() {
 
         {/* ── HISTORY ── */}
         {path === "/history" && (
-          <div className="p-6 space-y-6">
+          <div className="p-4 md:p-6 space-y-6">
             <div className="flex items-center gap-3">
               <Clock className="w-5 h-5 text-slate-400" />
               <h1 className="text-xl font-bold">Recently Viewed</h1>
@@ -342,7 +364,7 @@ export default function App() {
                 <p className="text-slate-400">No history yet</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
                 {history.map(ch => (
                   <ChannelCard key={ch.id} channel={ch} onClick={selectChannel} />
                 ))}
@@ -353,7 +375,7 @@ export default function App() {
 
         {/* ── IMPORT (M3U) ── */}
         {path === "/mylist" && (
-          <div className="p-6 space-y-6">
+          <div className="p-4 md:p-6 space-y-6">
             <h1 className="text-xl font-bold">My List &amp; Import M3U</h1>
             <M3UPlaylistImporter onImportSuccess={handleImportSuccess} />
           </div>
@@ -361,7 +383,7 @@ export default function App() {
 
         {/* ── SETTINGS / FALLBACK ── */}
         {(path === "/settings" || path === "/schedule" || path === "/trending") && (
-          <div className="p-6">
+          <div className="p-4 md:p-6">
             <div className="py-20 text-center bg-white/3 rounded-xl border border-white/8">
               <Tv className="w-10 h-10 text-slate-600 mx-auto mb-3" />
               <p className="text-slate-400 font-medium capitalize">{path.replace("/", "")} — Coming Soon</p>
@@ -369,6 +391,31 @@ export default function App() {
           </div>
         )}
       </div>
+
+      {/* Mobile bottom navigation bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0d0d1a] border-t border-white/10 flex items-center justify-around px-2 py-2">
+        {[
+          { icon: Home, label: "Home", route: "/" },
+          { icon: Tv, label: "Live", route: "/live" },
+          { icon: Globe, label: "Countries", route: "/countries" },
+          { icon: Heart, label: "Favorites", route: "/favorites" },
+          { icon: List, label: "More", route: "/mylist" },
+        ].map(({ icon: Icon, label, route: r }) => {
+          const active = r === "/" ? path === "/" || path === "" : path === r;
+          return (
+            <button
+              key={r}
+              onClick={() => navigate(r)}
+              className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition cursor-pointer min-w-0 flex-1 ${
+                active ? "text-violet-400" : "text-slate-500"
+              }`}
+            >
+              <Icon className={`w-5 h-5 ${active ? "text-violet-400" : "text-slate-500"}`} />
+              <span className="text-[10px] font-medium leading-none">{label}</span>
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }
@@ -405,47 +452,49 @@ function ChannelListPage({
   onChannelSelect, loadingChannels, page, totalPages, onPageChange,
 }: ChannelListPageProps) {
   return (
-    <div className="p-6 space-y-5">
+    <div className="p-4 md:p-6 space-y-5">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">{title}</h1>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 p-4 bg-white/3 rounded-xl border border-white/8">
-        <div className="relative flex-1 min-w-48">
+      <div className="flex flex-wrap gap-2 md:gap-3 p-3 md:p-4 bg-white/3 rounded-xl border border-white/8">
+        <div className="relative w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => onSearch(e.target.value)}
             placeholder="Search channels..."
-            className="w-full bg-white/5 border border-white/10 rounded-lg pl-8 pr-3 py-1.5 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-violet-500 transition"
+            className="w-full bg-white/5 border border-white/10 rounded-lg pl-8 pr-3 py-2 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-violet-500 transition"
           />
         </div>
 
-        <select
-          value={selectedCountry}
-          onChange={e => onSelectCountry(e.target.value)}
-          className="bg-white/5 border border-white/10 text-slate-200 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-violet-500 cursor-pointer min-w-40"
-        >
-          <option value="">🌎 All Countries</option>
-          {countries.map(c => (
-            <option key={c.code} value={c.code}>
-              {c.code === "BD" ? "🇧🇩 Bangladesh" : `${getFlagEmojiLocal(c.code)} ${c.name}`} ({c.count})
-            </option>
-          ))}
-        </select>
+        <div className="flex gap-2 w-full">
+          <select
+            value={selectedCountry}
+            onChange={e => onSelectCountry(e.target.value)}
+            className="flex-1 bg-white/5 border border-white/10 text-slate-200 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-violet-500 cursor-pointer"
+          >
+            <option value="">🌎 All Countries</option>
+            {countries.map(c => (
+              <option key={c.code} value={c.code}>
+                {c.code === "BD" ? "🇧🇩 Bangladesh" : `${getFlagEmojiLocal(c.code)} ${c.name}`} ({c.count})
+              </option>
+            ))}
+          </select>
 
-        <select
-          value={selectedCategory}
-          onChange={e => onSelectCategory(e.target.value)}
-          className="bg-white/5 border border-white/10 text-slate-200 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-violet-500 cursor-pointer min-w-40"
-        >
-          <option value="">🎬 All Categories</option>
-          {categories.map(c => (
-            <option key={c.name} value={c.name}>📺 {c.name} ({c.count})</option>
-          ))}
-        </select>
+          <select
+            value={selectedCategory}
+            onChange={e => onSelectCategory(e.target.value)}
+            className="flex-1 bg-white/5 border border-white/10 text-slate-200 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-violet-500 cursor-pointer"
+          >
+            <option value="">🎬 All Categories</option>
+            {categories.map(c => (
+              <option key={c.name} value={c.name}>📺 {c.name} ({c.count})</option>
+            ))}
+          </select>
+        </div>
 
         {(selectedCountry || selectedCategory || searchQuery) && (
           <button
@@ -459,7 +508,7 @@ function ChannelListPage({
 
       {/* Grid */}
       {loadingChannels ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
           {Array.from({ length: 15 }).map((_, i) => (
             <div key={i} className="rounded-xl bg-white/5 animate-pulse" style={{ aspectRatio: "16/9" }} />
           ))}
@@ -470,7 +519,7 @@ function ChannelListPage({
           <p className="text-slate-400">No channels found</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
           {channels.map(ch => (
             <ChannelCard key={ch.id} channel={ch} onClick={onChannelSelect} />
           ))}

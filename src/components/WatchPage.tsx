@@ -35,23 +35,23 @@ export default function WatchPage({
   return (
     <div className="min-h-screen bg-[#0a0a14] text-white">
       {/* Top bar */}
-      <div className="flex items-center gap-3 px-6 py-4 border-b border-white/5">
+      <div className="flex items-center gap-2 px-3 md:px-6 py-3 md:py-4 border-b border-white/5 overflow-hidden">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-slate-400 hover:text-white text-sm font-medium transition cursor-pointer"
+          className="flex items-center gap-1.5 text-slate-400 hover:text-white text-sm font-medium transition cursor-pointer shrink-0"
         >
           <ArrowLeft className="w-4 h-4" />
           Back
         </button>
-        <span className="text-slate-600">/</span>
-        <span className="text-slate-400 text-sm">{channel.category}</span>
-        <span className="text-slate-600">/</span>
-        <span className="text-white text-sm font-medium">{channel.name}</span>
+        <span className="text-slate-600 shrink-0">/</span>
+        <span className="text-slate-400 text-sm shrink-0 hidden sm:inline">{channel.category}</span>
+        <span className="text-slate-600 shrink-0 hidden sm:inline">/</span>
+        <span className="text-white text-sm font-medium truncate">{channel.name}</span>
       </div>
 
       <div className="flex gap-0">
         {/* Main content */}
-        <div className="flex-1 min-w-0 p-6 space-y-5">
+        <div className="flex-1 min-w-0 p-3 md:p-6 space-y-4 md:space-y-5">
           {/* Player */}
           <HLSLivePlayer
             channel={channel}
@@ -62,10 +62,10 @@ export default function WatchPage({
           />
 
           {/* Channel Info */}
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-            <div className="flex items-start gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 md:gap-4">
+            <div className="flex items-start gap-3">
               {/* Logo */}
-              <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+              <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
                 {channel.logo ? (
                   <img
                     src={proxyLogo(channel.logo)}
@@ -81,8 +81,8 @@ export default function WatchPage({
                   <span className="text-white font-bold text-xl">{channel.name.charAt(0)}</span>
                 )}
               </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                   <span className="flex items-center gap-1 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                     <Radio className="w-2.5 h-2.5" /> Live Now
                   </span>
@@ -98,7 +98,7 @@ export default function WatchPage({
                     </span>
                   )}
                 </div>
-                <h1 className="text-xl font-bold text-white">{channel.name}</h1>
+                <h1 className="text-lg md:text-xl font-bold text-white">{channel.name}</h1>
                 {channel.resolution && (
                   <span className="text-xs text-slate-500 mt-0.5 block">
                     {channel.resolution} {channel.bitrate ? `• ${channel.bitrate} kbps` : ""}
@@ -111,7 +111,7 @@ export default function WatchPage({
             <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={onToggleFavorite}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition cursor-pointer ${
                   isFavorited
                     ? "bg-pink-600/15 border-pink-500/40 text-pink-400"
                     : "bg-white/5 border-white/10 text-slate-300 hover:bg-white/10"
@@ -122,7 +122,7 @@ export default function WatchPage({
               </button>
               <button
                 onClick={() => window.open("/api/playlists/export/favorites.m3u", "_blank")}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 transition cursor-pointer"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 transition cursor-pointer"
               >
                 <Download className="w-4 h-4" />
                 Export M3U
@@ -135,10 +135,29 @@ export default function WatchPage({
             <h3 className="text-sm font-semibold text-slate-300 mb-3">Program Schedule</h3>
             <EPGSchedule channelId={channel.id} />
           </div>
+
+          {/* Related channels — mobile only (shown inline) */}
+          {related.length > 0 && (
+            <div className="md:hidden">
+              <h3 className="text-sm font-semibold text-slate-300 mb-3">Related Channels</h3>
+              <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+                {related.map(ch => (
+                  <div key={ch.id} className="shrink-0 w-40">
+                    <ChannelCard
+                      channel={ch}
+                      onClick={onChannelSelect}
+                      isActive={ch.id === channel.id}
+                      compact
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Right sidebar - related channels */}
-        <div className="w-72 shrink-0 border-l border-white/5 p-4 space-y-3 overflow-y-auto max-h-screen">
+        {/* Right sidebar — desktop only */}
+        <div className="hidden md:block w-72 shrink-0 border-l border-white/5 p-4 space-y-3 overflow-y-auto max-h-screen">
           <h3 className="text-sm font-semibold text-slate-300">Related Channels</h3>
           {related.length === 0 ? (
             <p className="text-xs text-slate-500 text-center py-8">No related channels</p>
