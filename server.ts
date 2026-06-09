@@ -244,7 +244,7 @@ loadIptvOrgData();
 
 async function startServer() {
   const app = express();
-  const PORT = 5000;
+  const PORT = parseInt(process.env.PORT || "5000", 10);
 
   app.use(express.json({ limit: "20mb" }));
   app.use(express.urlencoded({ extended: true, limit: "20mb" }));
