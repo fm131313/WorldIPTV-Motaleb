@@ -20,6 +20,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-1Plus1International.ua",
+    "name": "1+1 International",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "https://dash2.antik.sk/live/test_one_plus_one_int_tizen/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-1TV.ge",
     "name": "1TV",
     "country": "Georgia",
@@ -57,6 +67,16 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://stream-lb.livemediama.com/2m/hls/master.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-2Plus2.ua",
+    "name": "2+2",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/6378/index.m3u8",
     "isHealthy": true
   },
   {
@@ -276,7 +296,7 @@
     "countryCode": "DE",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/3sathd/browser-HLS8/3sathd.m3u8",
+    "streamUrl": "https://zdf-hls-18.akamaized.net/hls/live/2016501/dach/high/master.m3u8",
     "isHealthy": true
   },
   {
@@ -317,6 +337,16 @@
     "category": "Religion",
     "language": "English",
     "streamUrl": "http://eu2.tv4e.gr:554/live/smil:myStream.sdp.smil/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-4everCinema.ua",
+    "name": "4ever Cinema",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "https://iptv.prosto.tv/ch42/tracks-v2a1/mono.m3u8?live=1&ip=178.136.40.86&id=921233&secret=9szoe89y&21yo=0&e=1783523108&st=Asr1KmKTqcqldcTO-GvddA",
     "isHealthy": true
   },
   {
@@ -417,16 +447,6 @@
     "category": "News",
     "language": "English",
     "streamUrl": "https://6prlive.akamaized.net/hls/live/2033806/6PR/index.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-6ter.fr",
-    "name": "6ter",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8",
     "isHealthy": true
   },
   {
@@ -806,7 +826,7 @@
     "countryCode": "ES",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/canal24horas/browser-HLS8/canal24horas.m3u8",
+    "streamUrl": "https://ztnr.rtve.es/ztnr/1694255.m3u8",
     "isHealthy": true
   },
   {
@@ -1597,26 +1617,6 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "http://45.77.66.224:1935/athavantv/live/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-AB1.fr",
-    "name": "AB1",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/ab1/browser-dash/ab1.mpd",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-AB3.be",
-    "name": "AB3",
-    "country": "Belgium",
-    "countryCode": "BE",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/ab3/browser-HLS8/ab3.m3u8",
     "isHealthy": true
   },
   {
@@ -3950,16 +3950,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-AlMaghribia.ma",
-    "name": "Al Maghribia",
-    "country": "Morocco",
-    "countryCode": "MA",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/almaghribia/browser-dash/almaghribia.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-AlMahdiTV.us",
     "name": "Al-Mahdi TV",
     "country": "United States",
@@ -4017,16 +4007,6 @@
     "category": "News",
     "language": "English",
     "streamUrl": "https://live2.cdnbridge.tv/AlmasirahMubasher/Mubasher_All/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-AlMasriyah.eg",
-    "name": "Al Masriyah",
-    "country": "Egypt",
-    "countryCode": "EG",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/almasriyah/browser-HLS8/almasriyah.m3u8",
     "isHealthy": true
   },
   {
@@ -4610,6 +4590,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-AMCEurope.uk",
+    "name": "AMC Europe",
+    "country": "UK",
+    "countryCode": "UK",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/6949/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-Ame47.do",
     "name": "Ame 47",
     "country": "Dominican Republic",
@@ -5147,16 +5137,6 @@
     "category": "Kids",
     "language": "English",
     "streamUrl": "https://pb-ioe9d0fpkd6pp.akamaized.net/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-Animaux.fr",
-    "name": "Animaux",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Education",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/animaux/browser-dash/animaux.mpd",
     "isHealthy": true
   },
   {
@@ -5830,16 +5810,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-AragonTV.es",
-    "name": "Aragon TV",
-    "country": "Spain",
-    "countryCode": "ES",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/aragontv/browser-HLS8/aragontv.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-AragonTVInternacional.es",
     "name": "Aragon TV Internacional",
     "country": "Spain",
@@ -5936,7 +5906,7 @@
     "countryCode": "DE",
     "category": "Education",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/bralpha/browser-HLS8/bralpha.m3u8",
+    "streamUrl": "https://brlive-lh.akamaihd.net/i/bralpha_germany@119899/master.m3u8",
     "isHealthy": true
   },
   {
@@ -6226,7 +6196,7 @@
     "countryCode": "FR",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/artehd/browser-HLS8/artehd.m3u8",
+    "streamUrl": "https://artesimulcast.akamaized.net/hls/live/2031003/artelive_fr/index.m3u8",
     "isHealthy": true
   },
   {
@@ -6920,16 +6890,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-ATV2.at",
-    "name": "ATV2",
-    "country": "Austria",
-    "countryCode": "AT",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/atv/browser-dash/atv.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-ATV.at",
     "name": "ATV",
     "country": "Austria",
@@ -7226,7 +7186,7 @@
     "countryCode": "RU",
     "category": "Auto",
     "language": "English",
-    "streamUrl": "http://31.148.48.15/Avto_Plus/index.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1036/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -7417,6 +7377,36 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "https://indihuy.streamized.net/atm/DASH/axn/manifest.mpd",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-AXNBlack.us",
+    "name": "AXN Black",
+    "country": "United States",
+    "countryCode": "US",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/6952/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-AXNCEE.es",
+    "name": "AXN CEE",
+    "country": "Spain",
+    "countryCode": "ES",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/7008/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-AXNWhite.us",
+    "name": "AXN White",
+    "country": "United States",
+    "countryCode": "US",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/6950/index.m3u8",
     "isHealthy": true
   },
   {
@@ -8240,16 +8230,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-BBCFourCBeebies.uk",
-    "name": "BBC Four/CBeebies",
-    "country": "UK",
-    "countryCode": "UK",
-    "category": "Kids",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/bbc4cbeebies/browser-HLS8/bbc4cbeebies.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-BBCHomeGarden.us",
     "name": "BBC Home & Garden",
     "country": "United States",
@@ -8587,16 +8567,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://streamer.nexyl.uk/39290a19-b8dd-43ea-b8dc-081c37790f24.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-BBCThreeCBBC.uk",
-    "name": "BBC Three/CBBC",
-    "country": "UK",
-    "countryCode": "UK",
-    "category": "Family",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/bbc3cbbc/browser-HLS8/bbc3cbbc.m3u8",
     "isHealthy": true
   },
   {
@@ -9186,7 +9156,7 @@
     "countryCode": "FR",
     "category": "Business",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/bfmbusiness/browser-HLS8/bfmbusiness.m3u8",
+    "streamUrl": "https://live-cdn-stream-euw1.bfmb.bct.nextradiotv.com/master.m3u8",
     "isHealthy": true
   },
   {
@@ -9286,7 +9256,7 @@
     "countryCode": "FR",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/bfmtv/browser-HLS8/bfmtv.m3u8",
+    "streamUrl": "https://live-cdn-stream-euw1.bfmtv.bct.nextradiotv.com/master.m3u8",
     "isHealthy": true
   },
   {
@@ -9800,16 +9770,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-BlueZoomF.ch",
-    "name": "Blue Zoom F",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/bluezoomfr/browser-HLS8/bluezoomfr.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-BluRadio.co",
     "name": "Blu Radio",
     "country": "Colombia",
@@ -9867,16 +9827,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://bnr-cache-cdp.triple-it.nl/studio/index.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-BNT4.bg",
-    "name": "BNT 4",
-    "country": "Bulgaria",
-    "countryCode": "BG",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/bntworld/browser-HLS8/bntworld.m3u8",
     "isHealthy": true
   },
   {
@@ -10880,16 +10830,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-BVN.nl",
-    "name": "BVN",
-    "country": "Netherlands",
-    "countryCode": "NL",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/bvn/browser-dash/bvn.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-BX1.be",
     "name": "BX1",
     "country": "Belgium",
@@ -11520,6 +11460,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-Canal5.mx",
+    "name": "Canal 5",
+    "country": "Mexico",
+    "countryCode": "MX",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "http://45.5.119.43:4000/play/a05o/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-Canal5DelPueblo.ar",
     "name": "Canal 5 Del Pueblo",
     "country": "Argentina",
@@ -12067,16 +12017,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://stream-207963.castr.net/65313d270e749722b6474684/live_2b589fc0dfbf11ee9ce13534ca2a46c3/index.fmp4.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-Canal13Yucatan.mx",
-    "name": "Canal 13 Yucatan",
-    "country": "Mexico",
-    "countryCode": "MX",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://stream-207963.castr.net/65313d270e749722b6474684/live_4d3635d0dfbf11eeaae187cc1ffaf09b/index.fmp4.m3u8",
     "isHealthy": true
   },
   {
@@ -12666,7 +12606,7 @@
     "countryCode": "IT",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/canale5/browser-dash/canale5.mpd",
+    "streamUrl": "https://live3-mediaset-it.akamaized.net/Content/hls_h0_clr_vos/live/channel(C5)/index.m3u8",
     "isHealthy": true
   },
   {
@@ -12820,16 +12760,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-CanalJ.fr",
-    "name": "Canal J",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Kids",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/canalj/browser-HLS8/canalj.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-CanalLibras.br",
     "name": "Canal Libras",
     "country": "Brazil",
@@ -12977,16 +12907,6 @@
     "category": "Religion",
     "language": "English",
     "streamUrl": "https://cdn.streamhispanatv.net:3840/live/penielfamlive.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-CanalPlus.fr",
-    "name": "Canal+",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/canalplusclair/browser-dash/canalplusclair.mpd",
     "isHealthy": true
   },
   {
@@ -13567,16 +13487,6 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "https://edge17.vedge.infomaniak.com/livecast/ik:compack_media_1/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-Carac5.ch",
-    "name": "Carac 5",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/teleswizz/browser-HLS8/teleswizz.m3u8",
     "isHealthy": true
   },
   {
@@ -15266,7 +15176,7 @@
     "countryCode": "UK",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/channel5/browser-HLS8/channel5.m3u8",
+    "streamUrl": "https://x.canlitvapp.com/u-channel-5/index.m3u8",
     "isHealthy": true
   },
   {
@@ -15807,16 +15717,6 @@
     "category": "Cooking",
     "language": "English",
     "streamUrl": "https://rpn.bozztv.com/gusa/gusa-chefrock/index.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-ChekadTV.af",
-    "name": "Chekad TV",
-    "country": "Afghanistan",
-    "countryCode": "AF",
-    "category": "News",
-    "language": "English",
-    "streamUrl": "https://go5lmqxjyawb-hls-live.5centscdn.com/Chekad/271ddf829afeece44d8732757fba1a66.sdp/chunks.m3u8",
     "isHealthy": true
   },
   {
@@ -17220,16 +17120,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-CNBCEurope.uk",
-    "name": "CNBC Europe",
-    "country": "UK",
-    "countryCode": "UK",
-    "category": "Business",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/cnbc/browser-HLS8/cnbc.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-CNBCIndonesia.id",
     "name": "CNBC Indonesia",
     "country": "Indonesia",
@@ -17366,7 +17256,7 @@
     "countryCode": "FR",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/itele/browser-HLS8/itele.m3u8",
+    "streamUrl": "https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/CNews.m3u8",
     "isHealthy": true
   },
   {
@@ -17676,7 +17566,17 @@
     "countryCode": "DE",
     "category": "Comedy",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/comedycentral/browser-HLS8/comedycentral.m3u8",
+    "streamUrl": "http://c3921155.edmonst.net/iptv/42L7TCH8YYKLBRHNPV52HBRN/31302/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-ComedyCentral.ro",
+    "name": "Comedy Central",
+    "country": "Romania",
+    "countryCode": "RO",
+    "category": "Comedy",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/7025/index.m3u8",
     "isHealthy": true
   },
   {
@@ -18387,16 +18287,6 @@
     "category": "Religion",
     "language": "English",
     "streamUrl": "http://media.smc-host.com:1935/csat.tv/smil:csat.smil/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-CStar.fr",
-    "name": "C Star",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/d17/browser-dash/d17.mpd",
     "isHealthy": true
   },
   {
@@ -19916,7 +19806,7 @@
     "countryCode": "DE",
     "category": "Music",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/deluxemusic/browser-HLS8/deluxemusic.m3u8",
+    "streamUrl": "https://sdn-global-live-streaming-packager-cache.3qsdn.com/13456/13456_264_live.m3u8",
     "isHealthy": true
   },
   {
@@ -20520,16 +20410,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-DisneyChannel.de",
-    "name": "Disney Channel",
-    "country": "Germany",
-    "countryCode": "DE",
-    "category": "Kids",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/disneychannelde/browser-HLS8/disneychannelde.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-DisneyChannel.pt",
     "name": "Disney Channel",
     "country": "Portugal",
@@ -20930,16 +20810,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-DMSat.rs",
-    "name": "DM Sat",
-    "country": "Serbia",
-    "countryCode": "RS",
-    "category": "Music",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/dmsat/browser-dash/dmsat.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-DMTV.us",
     "name": "DMTV",
     "country": "United States",
@@ -21017,6 +20887,16 @@
     "category": "Series",
     "language": "English",
     "streamUrl": "https://bbc-classicdrwho-1-us.roku.wurl.tv/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-DocuBox.nl",
+    "name": "DocuBox",
+    "country": "Netherlands",
+    "countryCode": "NL",
+    "category": "Documentary",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/7049/index.m3u8",
     "isHealthy": true
   },
   {
@@ -21116,7 +20996,7 @@
     "countryCode": "RU",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "https://streaming.thestream.cyou/live/44.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1054/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -21636,7 +21516,7 @@
     "countryCode": "HU",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/duna/browser-dash/duna.mpd",
+    "streamUrl": "http://146.59.85.40:89/dunahd/index.m3u8",
     "isHealthy": true
   },
   {
@@ -21737,6 +21617,16 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://stream8.cinerama.uz/1006/tracks-v1a1/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-Duo6.lv",
+    "name": "Duo 6",
+    "country": "Latvia",
+    "countryCode": "LV",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/18018/index.m3u8",
     "isHealthy": true
   },
   {
@@ -23080,6 +22970,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-EpicDrama.uk",
+    "name": "Epic Drama",
+    "country": "UK",
+    "countryCode": "UK",
+    "category": "Series",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/8XFKA8883W9M5K/1048/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-EpicMusic.in",
     "name": "Epic Music",
     "country": "India",
@@ -23307,6 +23207,36 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://ncdn.telewebion.ir/eshragh/live/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-EskaRockTV.pl",
+    "name": "Eska Rock TV",
+    "country": "Poland",
+    "countryCode": "PL",
+    "category": "Music",
+    "language": "English",
+    "streamUrl": "http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/19172/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-EskaTV.pl",
+    "name": "Eska TV",
+    "country": "Poland",
+    "countryCode": "PL",
+    "category": "Music",
+    "language": "English",
+    "streamUrl": "http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/19174/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-EskaTVExtra.pl",
+    "name": "Eska TV Extra",
+    "country": "Poland",
+    "countryCode": "PL",
+    "category": "Music",
+    "language": "English",
+    "streamUrl": "http://88b9da48.kazmazpaz.ru/iptv/XVU58NBPX2LUMP/19173/index.m3u8",
     "isHealthy": true
   },
   {
@@ -23826,7 +23756,7 @@
     "countryCode": "TR",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/eurod/browser-dash/eurod.mpd",
+    "streamUrl": "https://live.duhnet.tv/S2/HLS_LIVE/eurodnp/playlist.m3u8",
     "isHealthy": true
   },
   {
@@ -23876,7 +23806,7 @@
     "countryCode": "FR",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/euronews/browser-HLS8/euronews.m3u8",
+    "streamUrl": "https://2f6c5bf4.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmxheHhUVi1ldV9FdXJvbmV3c0ZyYW5jYWlzX0hMUw/playlist.m3u8",
     "isHealthy": true
   },
   {
@@ -24946,7 +24876,7 @@
     "countryCode": "UK",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/film4/browser-HLS8/film4.m3u8",
+    "streamUrl": "http://80.194.62.172:50002/stream/channelid/1764271106",
     "isHealthy": true
   },
   {
@@ -24987,6 +24917,46 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "https://iptv.prosto.tv/ch64/tracks-v1a1/mono.m3u8?live=1&ip=104.28.156.59&id=921233&secret=9szoe89y&21yo=0&e=1783193705&st=MZPvPD4AwsRPTggeYFQLrA",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-FilmBoxExtra.nl",
+    "name": "FilmBox Extra",
+    "country": "Netherlands",
+    "countryCode": "NL",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/6996/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-FilmBoxFamily.nl",
+    "name": "FilmBox Family",
+    "country": "Netherlands",
+    "countryCode": "NL",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/7044/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-FilmBoxPremium.nl",
+    "name": "FilmBox Premium",
+    "country": "Netherlands",
+    "countryCode": "NL",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/7043/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-FilmBoxStars.nl",
+    "name": "FilmBox Stars",
+    "country": "Netherlands",
+    "countryCode": "NL",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/8XFKA8883W9M5K/7045/index.m3u8",
     "isHealthy": true
   },
   {
@@ -25420,16 +25390,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-Foro.mx",
-    "name": "Foro",
-    "country": "Mexico",
-    "countryCode": "MX",
-    "category": "News",
-    "language": "English",
-    "streamUrl": "https://channel02-notusa.akamaized.net/hls/live/2023914/event01/index.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-FORTTV.ug",
     "name": "FORT TV",
     "country": "Uganda",
@@ -25477,6 +25437,16 @@
     "category": "Religion",
     "language": "English",
     "streamUrl": "https://webstreaming-3.viewmedia.tv/web_033/Stream/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-Fox.pl",
+    "name": "Fox",
+    "country": "Poland",
+    "countryCode": "PL",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/6108/index.m3u8",
     "isHealthy": true
   },
   {
@@ -25546,27 +25516,7 @@
     "countryCode": "FR",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/france2hd/browser-dash/france2hd.mpd",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-France3.fr",
-    "name": "France 3",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/france3hd/browser-dash/france3hd.mpd",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-France4.fr",
-    "name": "France 4",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Kids",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/france4hd/browser-dash/france4hd.mpd",
+    "streamUrl": "http://69.64.57.208/france2/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -25576,7 +25526,7 @@
     "countryCode": "FR",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/france5hd/browser-dash/france5hd.mpd",
+    "streamUrl": "http://69.64.57.208/france5/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -25596,7 +25546,7 @@
     "countryCode": "FR",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/franceinfo/browser-HLS8/franceinfo.m3u8",
+    "streamUrl": "https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/franceinfotv.m3u8",
     "isHealthy": true
   },
   {
@@ -25930,6 +25880,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-FX.ee",
+    "name": "FX",
+    "country": "Estonia",
+    "countryCode": "EE",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/19216/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-FX.tr",
     "name": "FX",
     "country": "Turkey",
@@ -25937,6 +25897,16 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://saran-live.ercdn.net/fx/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-FXLife.ee",
+    "name": "FX Life",
+    "country": "Estonia",
+    "countryCode": "EE",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/9232/index.m3u8",
     "isHealthy": true
   },
   {
@@ -27886,7 +27856,7 @@
     "countryCode": "FR",
     "category": "Kids",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/gulli/browser-dash/gulli.mpd",
+    "streamUrl": "https://test.946985.filegear-sg.me/proxy/7e0a9ae6a27eee96",
     "isHealthy": true
   },
   {
@@ -30280,6 +30250,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-ICTV2.ua",
+    "name": "ICTV2",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/15235/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-ICTV.ke",
     "name": "ICTV",
     "country": "Kenya",
@@ -30800,6 +30780,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-IndiyskoyeKino.ru",
+    "name": "Indiyskoye Kino",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1060/tracks-v1a1/mono.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-IndonesianaTV.id",
     "name": "Indonesiana.TV",
     "country": "Indonesia",
@@ -30957,6 +30947,16 @@
     "category": "Religion",
     "language": "English",
     "streamUrl": "https://live20.bozztv.com/akamaissh101/ssh101/radiotvcholy/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-InRatingTV.ua",
+    "name": "InRating TV",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "Music",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/16020/index.m3u8",
     "isHealthy": true
   },
   {
@@ -31576,7 +31576,7 @@
     "countryCode": "IT",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/italia1/browser-dash/italia1.mpd",
+    "streamUrl": "https://live3-mediaset-it.akamaized.net/Content/hls_h0_clr_vos/live/channel(i1)/index.m3u8",
     "isHealthy": true
   },
   {
@@ -31676,27 +31676,7 @@
     "countryCode": "UK",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/itv2/browser-dash/itv2.mpd",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-ITV3.uk",
-    "name": "ITV3",
-    "country": "UK",
-    "countryCode": "UK",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/itv3/browser-HLS8/itv3.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-ITV4.uk",
-    "name": "ITV4",
-    "country": "UK",
-    "countryCode": "UK",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/itv4/browser-HLS8/itv4.m3u8",
+    "streamUrl": "http://80.194.62.172:50002/stream/channelid/404728797",
     "isHealthy": true
   },
   {
@@ -33250,6 +33230,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-Kanal7.ee",
+    "name": "Kanal 7",
+    "country": "Estonia",
+    "countryCode": "EE",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/20079/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-Kanal7.tr",
     "name": "Kanal 7",
     "country": "Turkey",
@@ -34386,7 +34376,7 @@
     "countryCode": "DE",
     "category": "Kids",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/kikahd/browser-HLS8/kikahd.m3u8",
+    "streamUrl": "https://dash4.antik.sk/live/test_kika_tizen/playlist.m3u8",
     "isHealthy": true
   },
   {
@@ -34470,13 +34460,23 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-KinoHit.ru",
+    "name": "KinoHit",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1055/tracks-v1a1/mono.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-Kinopokaz.ru",
     "name": "Kinopokaz",
     "country": "Russia",
     "countryCode": "RU",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "http://31.148.48.15/Kinopokaz/index.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1057/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -34487,6 +34487,16 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "http://31.148.48.15/Kineko/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-Kinosvidanie.ru",
+    "name": "Kinosvidanie",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1203/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -35436,7 +35446,7 @@
     "countryCode": "FR",
     "category": "Religion",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/kto/browser-dash/kto.mpd",
+    "streamUrl": "https://live-kto.akamaized.net/hls/live/2033284/KTO/master.m3u8",
     "isHealthy": true
   },
   {
@@ -36027,26 +36037,6 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "https://live3-mediaset-it.akamaized.net/Content/hls_h0_clr_vos/live/channel(ka)/index.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-LA7.it",
-    "name": "LA7",
-    "country": "Italy",
-    "countryCode": "IT",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/la7/browser-dash/la7.mpd",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-La7Cinema.it",
-    "name": "La7 Cinema",
-    "country": "Italy",
-    "countryCode": "IT",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/la7d/browser-dash/la7d.mpd",
     "isHealthy": true
   },
   {
@@ -36930,16 +36920,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-LCI.fr",
-    "name": "LCI",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "News",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/lci/browser-HLS8/lci.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-LCN.ca",
     "name": "LCN",
     "country": "Canada",
@@ -36947,16 +36927,6 @@
     "category": "News",
     "language": "English",
     "streamUrl": "https://tvalive.akamaized.net/hls/live/2014213/tvan01/tvan01.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-LCP.fr",
-    "name": "LCP",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Legislative",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/lcp/browser-HLS8/lcp.m3u8",
     "isHealthy": true
   },
   {
@@ -37166,7 +37136,7 @@
     "countryCode": "FR",
     "category": "Sports",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/lequipe21/browser-HLS8/lequipe21.m3u8",
+    "streamUrl": "https://dshn8inoshngm.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-gac2i63dmu8b7/LEquipe_FR.m3u8",
     "isHealthy": true
   },
   {
@@ -38357,16 +38327,6 @@
     "category": "Education",
     "language": "English",
     "streamUrl": "http://88.212.15.19/live/test_m_5_hun_atk_1200/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-M6.fr",
-    "name": "M6",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8",
     "isHealthy": true
   },
   {
@@ -40656,7 +40616,7 @@
     "countryCode": "FR",
     "category": "Music",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/mezzo/browser-HLS8/mezzo.m3u8",
+    "streamUrl": "http://tmptv.sunduk.tv/CH97/index.m3u8",
     "isHealthy": true
   },
   {
@@ -41840,16 +41800,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-More4.uk",
-    "name": "More4",
-    "country": "UK",
-    "countryCode": "UK",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/more4/browser-dash/more4.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-MoreGraceTV.ng",
     "name": "More Grace TV",
     "country": "Nigeria",
@@ -42440,13 +42390,13 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-MTV.fr",
+    "id": "iptvorg-MTV.de",
     "name": "MTV",
-    "country": "France",
-    "countryCode": "FR",
+    "country": "Germany",
+    "countryCode": "DE",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/mtvfrance/browser-HLS8/mtvfrance.m3u8",
+    "streamUrl": "http://c3921155.edmonst.net/iptv/42L7TCH8YYKLBRHNPV52HBRN/31344/index.m3u8",
     "isHealthy": true
   },
   {
@@ -42457,6 +42407,16 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "http://149.71.34.166:8000/play/a00p/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-MTV.pl",
+    "name": "MTV",
+    "country": "Poland",
+    "countryCode": "PL",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/7294/index.m3u8",
     "isHealthy": true
   },
   {
@@ -42886,7 +42846,7 @@
     "countryCode": "RU",
     "category": "Music",
     "language": "English",
-    "streamUrl": "https://streaming.televizor-24-tochka.ru/live/20.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1200/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -42936,7 +42896,7 @@
     "countryCode": "RU",
     "category": "Music",
     "language": "English",
-    "streamUrl": "http://31.148.48.15/Muzika_Pervogo/index.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1201/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -43407,6 +43367,26 @@
     "category": "Series",
     "language": "English",
     "streamUrl": "https://aegis-cloudfront-1.tubi.video/07f838db-e5bc-47c9-b2b8-6d7037b06b9b/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-NASHEMusic.ua",
+    "name": "NASHE Music",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "Music",
+    "language": "English",
+    "streamUrl": "https://cdn15.live-tv.cloud/ua_infinitas_tv/nashemus-abr/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-NasheNovoeKino.ru",
+    "name": "Nashe Novoe Kino",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1051/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -43896,7 +43876,7 @@
     "countryCode": "DE",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/ndr/browser-HLS8/ndr.m3u8",
+    "streamUrl": "https://mcdn.ndr.de/ndr/hls/ndr_fs/ndr_hh/master.m3u8",
     "isHealthy": true
   },
   {
@@ -44850,23 +44830,13 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-NHKKishouSaigai.jp",
-    "name": "NHK Kishou-Saigai",
-    "country": "Japan",
-    "countryCode": "JP",
-    "category": "Weather",
-    "language": "English",
-    "streamUrl": "https://newssimul-stream.nhk.jp/hls/live/2010561/nhknewssimul/master.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-NHKWorldJapan.jp",
     "name": "NHK World-Japan",
     "country": "Japan",
     "countryCode": "JP",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/nhk/browser-HLS8/nhk.m3u8",
+    "streamUrl": "https://nhk.lls.pbs.org/index.m3u8",
     "isHealthy": true
   },
   {
@@ -44917,16 +44887,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://goliveafrica.media:9998/live/64ada04aa7678/index.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-NickComedyCentralPlus1.de",
-    "name": "Nick/Comedy Central +1",
-    "country": "Germany",
-    "countryCode": "DE",
-    "category": "Comedy",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/comedycentralnick/browser-HLS8/comedycentralnick.m3u8",
     "isHealthy": true
   },
   {
@@ -45047,6 +45007,16 @@
     "category": "Kids",
     "language": "English",
     "streamUrl": "https://x1co.com.br/hls/stream.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-Nicktoons.ru",
+    "name": "Nicktoons",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "Kids",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/849/index.m3u8",
     "isHealthy": true
   },
   {
@@ -45227,16 +45197,6 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "https://vs20.live.opencaster.com/bznudxxdtppv/index.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-Nitro.de",
-    "name": "Nitro",
-    "country": "Germany",
-    "countryCode": "DE",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rtlnitro/browser-HLS8/rtlnitro.m3u8",
     "isHealthy": true
   },
   {
@@ -45700,16 +45660,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-NOVO19.fr",
-    "name": "NOVO19",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/novo19/browser-HLS8/novo19.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-Novocomedy.fr",
     "name": "Novocomedy",
     "country": "France",
@@ -45937,16 +45887,6 @@
     "category": "News",
     "language": "English",
     "streamUrl": "https://media.streambrothers.com:1936/8226/8226/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-NRTV.ch",
-    "name": "NRTV",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/nrtv/browser-HLS8/nrtv.m3u8",
     "isHealthy": true
   },
   {
@@ -46910,6 +46850,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-Okhotairybalka.ru",
+    "name": "Okhota i rybalka",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "Outdoor",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1038/tracks-v1a1/mono.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-OKKaiserslautern.de",
     "name": "OK Kaiserslautern",
     "country": "Germany",
@@ -47540,16 +47490,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-One.de",
-    "name": "One",
-    "country": "Germany",
-    "countryCode": "DE",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/onehd/browser-HLS8/onehd.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-One.mt",
     "name": "One",
     "country": "Malta",
@@ -47920,16 +47860,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-ORF2Tirol.at",
-    "name": "ORF 2 Tirol",
-    "country": "Austria",
-    "countryCode": "AT",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/orf2/browser-dash/orf2.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-ORF2Wien.at",
     "name": "ORF 2 Wien",
     "country": "Austria",
@@ -48107,6 +48037,16 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "http://116.90.120.151:8000/play/a0ax/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-OstWest.de",
+    "name": "Ost West",
+    "country": "Germany",
+    "countryCode": "DE",
+    "category": "News",
+    "language": "English",
+    "streamUrl": "http://c3921155.edmonst.net/iptv/42L7TCH8YYKLBRHNPV52HBRN/14021/index.m3u8",
     "isHealthy": true
   },
   {
@@ -48627,6 +48567,16 @@
     "category": "Religion",
     "language": "English",
     "streamUrl": "https://stream.eleden.com/livewtpm/ngrp:livewtpm_all/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-ParamountNetwork.nl",
+    "name": "Paramount Network",
+    "country": "Netherlands",
+    "countryCode": "NL",
+    "category": "Series",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/12060/index.m3u8",
     "isHealthy": true
   },
   {
@@ -49596,7 +49546,7 @@
     "countryCode": "DE",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/phoenixhd/browser-dash/phoenixhd.mpd",
+    "streamUrl": "https://zdf-hls-19.akamaized.net/hls/live/2016502/de/high/master.m3u8",
     "isHealthy": true
   },
   {
@@ -49807,16 +49757,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://live.obslivestream.com/planetatv/index.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-PlanetePlus.fr",
-    "name": "Planete+",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/planeteplus/browser-HLS8/planeteplus.m3u8",
     "isHealthy": true
   },
   {
@@ -50867,6 +50807,16 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://5f22d76e220e1.streamlock.net/primantenna14/primantenna14/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-PrimaStar.cz",
+    "name": "Prima Star",
+    "country": "Czech Republic",
+    "countryCode": "CZ",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "http://88.212.15.19/live/test_prima_star_hevc_25p/playlist.m3u8",
     "isHealthy": true
   },
   {
@@ -53326,7 +53276,7 @@
     "countryCode": "IT",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rai1/browser-dash/rai1.mpd",
+    "streamUrl": "https://srv1.adriatelekom.com/Rai1/index.m3u8",
     "isHealthy": true
   },
   {
@@ -53336,7 +53286,7 @@
     "countryCode": "IT",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rai2/browser-dash/rai2.mpd",
+    "streamUrl": "https://srv1.adriatelekom.com/Rai2/index.m3u8",
     "isHealthy": true
   },
   {
@@ -53346,7 +53296,7 @@
     "countryCode": "IT",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rai3/browser-dash/rai3.mpd",
+    "streamUrl": "https://mediapolis.rai.it/relinker/relinkerServlet.htm?cont=308709",
     "isHealthy": true
   },
   {
@@ -53386,7 +53336,17 @@
     "countryCode": "IT",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/raigulp/browser-dash/raigulp.mpd",
+    "streamUrl": "https://srv1.adriatelekom.com/RaiGulp/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-RaiItalia.it",
+    "name": "Rai Italia",
+    "country": "Italy",
+    "countryCode": "IT",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/19093/index.m3u8",
     "isHealthy": true
   },
   {
@@ -53416,7 +53376,7 @@
     "countryCode": "IT",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rainews/browser-dash/rainews.mpd",
+    "streamUrl": "https://rainews1-live.akamaized.net/hls/live/598326/rainews1/rainews1/playlist.m3u8",
     "isHealthy": true
   },
   {
@@ -53436,7 +53396,7 @@
     "countryCode": "IT",
     "category": "Education",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/raiscuola/browser-dash/raiscuola.mpd",
+    "streamUrl": "https://srv1.adriatelekom.com/RaiScuola/index.m3u8",
     "isHealthy": true
   },
   {
@@ -53446,7 +53406,7 @@
     "countryCode": "IT",
     "category": "Sports",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/raisport1/browser-dash/raisport1.mpd",
+    "streamUrl": "https://srv1.adriatelekom.com/RaiSport/index.m3u8",
     "isHealthy": true
   },
   {
@@ -53456,7 +53416,7 @@
     "countryCode": "IT",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/raistoria/browser-dash/raistoria.mpd",
+    "streamUrl": "https://srv1.adriatelekom.com/RaiStoria/index.m3u8",
     "isHealthy": true
   },
   {
@@ -54826,7 +54786,7 @@
     "countryCode": "IT",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rete4/browser-dash/rete4.mpd",
+    "streamUrl": "https://live3-mediaset-it.akamaized.net/Content/hls_h0_clr_vos/live/channel(r4)/index.m3u8",
     "isHealthy": true
   },
   {
@@ -54897,6 +54857,16 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://59d7d6f47d7fc.streamlock.net/reteveneta/reteveneta/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-Retro.ru",
+    "name": "Retro",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "Classic",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1047/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -55060,6 +55030,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-RFMTV.fr",
+    "name": "RFM TV",
+    "country": "France",
+    "countryCode": "FR",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/1038/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-RFO.de",
     "name": "RFO",
     "country": "Germany",
@@ -55136,7 +55116,7 @@
     "countryCode": "DE",
     "category": "Kids",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/ric/browser-HLS8/ric.m3u8",
+    "streamUrl": "https://rictv.iptv-playoutcenter.de/rictv/rictv-web/playlist.m3u8",
     "isHealthy": true
   },
   {
@@ -55267,36 +55247,6 @@
     "category": "Religion",
     "language": "English",
     "streamUrl": "https://webstreaming-8.viewmedia.tv/web_119/Stream/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RMCDecouverte.fr",
-    "name": "RMC Decouverte",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rmcdecouverte/browser-HLS8/rmcdecouverte.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RMCLife.fr",
-    "name": "RMC Life",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/cherie25/browser-HLS8/cherie25.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RMCStory.fr",
-    "name": "RMC Story",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/numero23/browser-HLS8/numero23.m3u8",
     "isHealthy": true
   },
   {
@@ -55466,7 +55416,7 @@
     "countryCode": "RU",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "http://31.148.48.15/Rodnoe_kino/index.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1052/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -55890,26 +55840,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-RSILa1.ch",
-    "name": "RSI La 1",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rsila1hd/browser-dash/rsila1hd.mpd",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RSILa2.ch",
-    "name": "RSI La 2",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rsila2hd/browser-dash/rsila2hd.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-RSVHonduras.hn",
     "name": "RSV Honduras",
     "country": "Honduras",
@@ -56220,16 +56150,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-RTK1.xk",
-    "name": "RTK 1",
-    "country": "XK",
-    "countryCode": "XK",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rtk1/browser-dash/rtk1.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-RTK3.xk",
     "name": "RTK 3",
     "country": "XK",
@@ -56247,16 +56167,6 @@
     "category": "Music",
     "language": "English",
     "streamUrl": "https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/rtl2.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RTL9.lu",
-    "name": "RTL9",
-    "country": "Luxembourg",
-    "countryCode": "LU",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rtl9/browser-dash/rtl9.mpd",
     "isHealthy": true
   },
   {
@@ -56327,16 +56237,6 @@
     "category": "Music",
     "language": "English",
     "streamUrl": "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist_video.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RTL.de",
-    "name": "RTL",
-    "country": "Germany",
-    "countryCode": "DE",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rtl/browser-HLS8/rtl.m3u8",
     "isHealthy": true
   },
   {
@@ -56457,16 +56357,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://live-edge.rtl.lu/channel2/smil:channel2/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RTLZwei.de",
-    "name": "RTL Zwei",
-    "country": "Germany",
-    "countryCode": "DE",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rtl2/browser-HLS8/rtl2.m3u8",
     "isHealthy": true
   },
   {
@@ -56636,7 +56526,7 @@
     "countryCode": "PT",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rtpi/browser-HLS8/rtpi.m3u8",
+    "streamUrl": "https://op-group1-swiftservehd-1.dens.tv/s/s38/index.m3u8",
     "isHealthy": true
   },
   {
@@ -56700,16 +56590,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-RTS1.ch",
-    "name": "RTS 1",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rts1hd/browser-dash/rts1hd.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-RTS1.rs",
     "name": "RTS 1",
     "country": "Serbia",
@@ -56727,16 +56607,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "http://69.64.57.208/rts1/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RTS2.ch",
-    "name": "RTS 2",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rts2hd/browser-dash/rts2hd.mpd",
     "isHealthy": true
   },
   {
@@ -56827,16 +56697,6 @@
     "category": "Sports",
     "language": "English",
     "streamUrl": "http://178.33.11.6:8696/live/rtshsport/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-RTSSvet.rs",
-    "name": "RTS Svet",
-    "country": "Serbia",
-    "countryCode": "RS",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rtssat/browser-dash/rtssat.mpd",
     "isHealthy": true
   },
   {
@@ -61840,16 +61700,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-SRF1.ch",
-    "name": "SRF 1",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/srf1hd/browser-dash/srf1hd.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-SRF.de",
     "name": "SRF",
     "country": "Germany",
@@ -61867,26 +61717,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://srfs.akamaized.net/hls/live/689649/srfsgeo/index.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-SRFinfo.ch",
-    "name": "SRF info",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/srfinfo/browser-dash/srfinfo.mpd",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-SRFzwei.ch",
-    "name": "SRF zwei",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/srf2hd/browser-dash/srf2hd.mpd",
     "isHealthy": true
   },
   {
@@ -62136,7 +61966,7 @@
     "countryCode": "IN",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "http://103.253.18.58:8000/play/a00l",
+    "streamUrl": "http://149.71.34.166:8000/play/a01h/index.m3u8",
     "isHealthy": true
   },
   {
@@ -62257,16 +62087,6 @@
     "category": "News",
     "language": "English",
     "streamUrl": "https://live.cast-control.eu/StartMedia/StartMedia/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-StarTV.ch",
-    "name": "Star TV",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/startv/browser-HLS8/startv.m3u8",
     "isHealthy": true
   },
   {
@@ -64056,7 +63876,7 @@
     "countryCode": "DE",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/swrbw/browser-HLS8/swrbw.m3u8",
+    "streamUrl": "https://swrbwd-hls.akamaized.net/hls/live/2018672/swrbwd/master.m3u8",
     "isHealthy": true
   },
   {
@@ -64216,7 +64036,17 @@
     "countryCode": "FR",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/t18/browser-HLS8/t18.m3u8",
+    "streamUrl": "https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/t18-dm.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-T24.ru",
+    "name": "T24",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1037/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -64587,6 +64417,16 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "https://livetv.tarangplus.in/tarangtv-origin/live/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-TaraqqiyotTV.uz",
+    "name": "Taraqqiyot TV",
+    "country": "Uzbekistan",
+    "countryCode": "UZ",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1204/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -65050,6 +64890,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-TeenNick.il",
+    "name": "TeenNick",
+    "country": "Israel",
+    "countryCode": "IL",
+    "category": "Kids",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/2334/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-TegarTVLampung.id",
     "name": "Tegar TV Lampung",
     "country": "Indonesia",
@@ -65250,16 +65100,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-TeleBarn.ch",
-    "name": "TeleBarn",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/telebaern/browser-dash/telebaern.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-TeleBendicion.do",
     "name": "TeleBendicion",
     "country": "Dominican Republic",
@@ -65267,16 +65107,6 @@
     "category": "Religion",
     "language": "English",
     "streamUrl": "https://ss2.tvrdomi.com:1936/telebendicion/telebendicion/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-TeleBielingue.ch",
-    "name": "TeleBielingue",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/telebielingue/browser-dash/telebielingue.mpd",
     "isHealthy": true
   },
   {
@@ -67420,6 +67250,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-TET.ua",
+    "name": "TET",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/6377/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-TeveColombia.co",
     "name": "TeveColombia",
     "country": "Colombia",
@@ -67466,17 +67306,7 @@
     "countryCode": "FR",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-dash/tf1hd.mpd",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-TF1SeriesFilms.fr",
-    "name": "TF1 Series Films",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/hd1/browser-HLS8/hd1.m3u8",
+    "streamUrl": "https://test.946985.filegear-sg.me/proxy/71eb898aa398f1b9",
     "isHealthy": true
   },
   {
@@ -67487,16 +67317,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "http://69.64.57.208/tfm/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-TFX.fr",
-    "name": "TFX",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/nt1/browser-HLS8/nt1.m3u8",
     "isHealthy": true
   },
   {
@@ -68796,7 +68616,7 @@
     "countryCode": "RU",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://planeta.mediacdn.ru/cdn/tnvplanet/playlist.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1062/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -69470,16 +69290,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-Trek.fr",
-    "name": "Trek",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/escales/browser-HLS8/escales.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-TrendTV.hr",
     "name": "Trend TV",
     "country": "Croatia",
@@ -69866,7 +69676,7 @@
     "countryCode": "TR",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/trtturk/browser-dash/trtturk.mpd",
+    "streamUrl": "https://tv-trtturk.medya.trt.com.tr/master.m3u8",
     "isHealthy": true
   },
   {
@@ -70290,16 +70100,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-TV2.dz",
-    "name": "TV2",
-    "country": "Algeria",
-    "countryCode": "DZ",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/canalalgerie/browser-dash/canalalgerie.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-TV2.hu",
     "name": "TV2",
     "country": "Hungary",
@@ -70526,7 +70326,7 @@
     "countryCode": "FR",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/tv5mondefbs/browser-HLS8/tv5mondefbs.m3u8",
+    "streamUrl": "https://ott.tv5monde.com/Content/HLS/Live/channel(fbs)/variant.m3u8",
     "isHealthy": true
   },
   {
@@ -70860,16 +70660,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-TV24.ch",
-    "name": "TV 24",
-    "country": "Switzerland",
-    "countryCode": "CH",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/tv24/browser-HLS8/tv24.m3u8",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-TV24.mk",
     "name": "TV 24",
     "country": "North Macedonia",
@@ -70977,6 +70767,16 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://b01c02nl.mediatriple.net/videoonlylive/mtdxkkitgbrckilive/broadcast_5ee244263fd6d.smil/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-TV1000.ro",
+    "name": "TV1000",
+    "country": "Romania",
+    "countryCode": "RO",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/6944/index.m3u8",
     "isHealthy": true
   },
   {
@@ -71736,7 +71536,7 @@
     "countryCode": "ME",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/rtcg/browser-dash/rtcg.mpd",
+    "streamUrl": "https://rtcg-live-open.morescreens.com/RTCG_1_004/playlist.m3u8",
     "isHealthy": true
   },
   {
@@ -71846,7 +71646,7 @@
     "countryCode": "NG",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/tvcnews/browser-dash/tvcnews.mpd",
+    "streamUrl": "http://69.64.57.208/tvcnews/playlist.m3u8",
     "isHealthy": true
   },
   {
@@ -72186,7 +71986,7 @@
     "countryCode": "ES",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/tveinternacional/browser-HLS8/tveinternacional.m3u8",
+    "streamUrl": "https://rtvelivestream-rtveplayplus.rtve.es/rtvesec/int/tvei_eu_main_1080.m3u8",
     "isHealthy": true
   },
   {
@@ -73906,7 +73706,7 @@
     "countryCode": "PL",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/tvpolonia/browser-dash/tvpolonia.mpd",
+    "streamUrl": "https://lowa8026-cmyk.github.io/tvpvod/399723.m3u8",
     "isHealthy": true
   },
   {
@@ -74176,7 +73976,7 @@
     "countryCode": "RO",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/tvrinternational/browser-dash/tvrinternational.mpd",
+    "streamUrl": "https://tvr-international.lg.mncdn.com/tvrinternational/smil:tvrinternational.smil/chunklist_b5160000.m3u8",
     "isHealthy": true
   },
   {
@@ -76026,7 +75826,7 @@
     "countryCode": "RU",
     "category": "General",
     "language": "English",
-    "streamUrl": "http://31.148.48.15/Detskiy/index.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1033/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -77320,6 +77120,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-ViasatExplore.se",
+    "name": "Viasat Explore",
+    "country": "Sweden",
+    "countryCode": "SE",
+    "category": "Documentary",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/8XFKA8883W9M5K/12085/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-ViasatExplore.tr",
     "name": "Viasat Explore",
     "country": "Turkey",
@@ -77340,6 +77150,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-ViasatHistory.se",
+    "name": "Viasat History",
+    "country": "Sweden",
+    "countryCode": "SE",
+    "category": "Documentary",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/8XFKA8883W9M5K/12101/index.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-ViasatKino.ua",
     "name": "Viasat Kino",
     "country": "Ukraine",
@@ -77357,6 +77177,46 @@
     "category": "Movies",
     "language": "English",
     "streamUrl": "http://89.254.128.5:22280/viasat_kino_action/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-ViasatKinoComedy.ua",
+    "name": "Viasat Kino Comedy",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://c3921155.edmonst.net/iptv/42L7TCH8YYKLBRHNPV52HBRN/31764/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-ViasatKinoWorld.ua",
+    "name": "Viasat Kino World",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://c3921155.edmonst.net/iptv/42L7TCH8YYKLBRHNPV52HBRN/31448/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-ViasatNature.se",
+    "name": "Viasat Nature",
+    "country": "Sweden",
+    "countryCode": "SE",
+    "category": "Documentary",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/8XFKA8883W9M5K/12084/index.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-ViasatSerial.ua",
+    "name": "Viasat Serial",
+    "country": "Ukraine",
+    "countryCode": "UA",
+    "category": "Movies",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/MM4E93NGF5LADZ/17056/index.m3u8",
     "isHealthy": true
   },
   {
@@ -77506,7 +77366,7 @@
     "countryCode": "RU",
     "category": "Movies",
     "language": "English",
-    "streamUrl": "http://31.148.48.15/TV1000_Russkoe_kino/index.m3u8",
+    "streamUrl": "https://stream8.cinerama.uz/1058/tracks-v1a1/mono.m3u8",
     "isHealthy": true
   },
   {
@@ -78020,16 +77880,6 @@
     "isHealthy": true
   },
   {
-    "id": "iptvorg-VOX.de",
-    "name": "VOX",
-    "country": "Germany",
-    "countryCode": "DE",
-    "category": "General",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/vox/browser-dash/vox.mpd",
-    "isHealthy": true
-  },
-  {
     "id": "iptvorg-VoxAfrica.uk",
     "name": "VoxAfrica",
     "country": "UK",
@@ -78117,6 +77967,16 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://vsin-sgrewind.streamguys1.com/scte/live-2k/playlist.m3u8",
+    "isHealthy": true
+  },
+  {
+    "id": "iptvorg-VSportGolf.se",
+    "name": "V Sport Golf",
+    "country": "Sweden",
+    "countryCode": "SE",
+    "category": "Sports",
+    "language": "English",
+    "streamUrl": "http://315e5a5d.ottrast.com/iptv/8XFKA8883W9M5K/12077/index.m3u8",
     "isHealthy": true
   },
   {
@@ -78357,16 +78217,6 @@
     "category": "General",
     "language": "English",
     "streamUrl": "https://stream.polar.cz/vctv/vctvlive-1/playlist.m3u8",
-    "isHealthy": true
-  },
-  {
-    "id": "iptvorg-W9.fr",
-    "name": "W9",
-    "country": "France",
-    "countryCode": "FR",
-    "category": "Movies",
-    "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/w9/browser-dash/w9.mpd",
     "isHealthy": true
   },
   {
@@ -79036,7 +78886,7 @@
     "countryCode": "DE",
     "category": "News",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/n24/browser-HLS8/n24.m3u8",
+    "streamUrl": "https://s6.hopslan.com/n24X/index.m3u8",
     "isHealthy": true
   },
   {
@@ -81100,6 +80950,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-YemenTV.ye",
+    "name": "Yemen TV",
+    "country": "Yemen",
+    "countryCode": "YE",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "https://live.yementv.tv/memfs/c8fe49a3-b1ca-4d14-9d78-498e8bad4f76_fast_output_0.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-YES.mv",
     "name": "YES",
     "country": "Maldives",
@@ -81340,6 +81200,16 @@
     "isHealthy": true
   },
   {
+    "id": "iptvorg-ZagorodnayaZhizn.ru",
+    "name": "Zagorodnaya Zhizn",
+    "country": "Russia",
+    "countryCode": "RU",
+    "category": "General",
+    "language": "English",
+    "streamUrl": "https://stream8.cinerama.uz/1044/tracks-v1a1/mono.m3u8",
+    "isHealthy": true
+  },
+  {
     "id": "iptvorg-ZagrosTV.iq",
     "name": "Zagros TV",
     "country": "Iraq",
@@ -81496,7 +81366,7 @@
     "countryCode": "DE",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/zdfhd/browser-dash/zdfhd.mpd",
+    "streamUrl": "https://zdf-hls-15.akamaized.net/hls/live/2016498/de/high/master.m3u8",
     "isHealthy": true
   },
   {
@@ -81506,7 +81376,7 @@
     "countryCode": "DE",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/zdfinfohd/browser-dash/zdfinfohd.mpd",
+    "streamUrl": "https://zdf-hls-17.akamaized.net/hls/live/2016500/de/high/master.m3u8",
     "isHealthy": true
   },
   {
@@ -81516,7 +81386,7 @@
     "countryCode": "DE",
     "category": "General",
     "language": "English",
-    "streamUrl": "https://viamotionhsi.netplus.ch/live/eds/zdfneohd/browser-dash/zdfneohd.mpd",
+    "streamUrl": "https://zdf-hls-16.akamaized.net/hls/live/2016499/de/high/master.m3u8",
     "isHealthy": true
   },
   {
