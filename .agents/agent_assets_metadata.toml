@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "C0eK-VL6n24_tdFCZjJQI"
+uri = "file://BUILD_ANDROID.md"
+type = "text"
+title = "VistaTV Android Build Guide"
