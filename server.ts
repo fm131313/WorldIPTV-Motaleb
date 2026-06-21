@@ -647,6 +647,36 @@ async function startServer() {
     }
   });
 
+  // M3U playlist resolver — fetches an .m3u file and returns the first valid stream URL
+  app.get("/api/resolve-m3u", async (req, res) => {
+    const url = req.query.url as string;
+    if (!url || !url.startsWith("http")) return res.status(400).json({ error: "Invalid URL" });
+
+    const fetchText = (targetUrl: string): Promise<string> =>
+      new Promise((resolve, reject) => {
+        let parsed: URL;
+        try { parsed = new URL(targetUrl); } catch { return reject(new Error("Bad URL")); }
+        const lib = parsed.protocol === "https:" ? https : http;
+        lib.get(targetUrl, { headers: { "User-Agent": "Mozilla/5.0 (compatible; VistaTV/1.0)", "Accept": "*/*" }, timeout: 8000 }, (r) => {
+          let d = "";
+          r.on("data", c => d += c);
+          r.on("end", () => resolve(d));
+          r.on("error", reject);
+          r.setTimeout(8000, () => { r.destroy(); reject(new Error("Timeout")); });
+        }).on("error", reject);
+      });
+
+    try {
+      const content = await fetchText(url);
+      const lines = content.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      const streamUrl = lines.find(l => l.startsWith("http://") || l.startsWith("https://") || l.startsWith("rtsp://"));
+      if (!streamUrl) return res.status(404).json({ error: "No stream found in playlist" });
+      res.json({ streamUrl });
+    } catch (err: any) {
+      res.status(502).json({ error: `Could not fetch playlist: ${err.message}` });
+    }
+  });
+
   // Stream proxy — pipes raw .ts / non-HLS streams server-side to bypass CORS
   app.get("/api/stream-proxy", (req, res) => {
     const url = req.query.url as string;

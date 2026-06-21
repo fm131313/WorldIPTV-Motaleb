@@ -82,11 +82,11 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     // Detect raw MPEG-TS streams (end in .ts, not .m3u8) — route via server proxy
     const urlPath = channel.streamUrl.split("?")[0].toLowerCase();
     const isRawTs = urlPath.endsWith(".ts") && !urlPath.endsWith(".m3u8");
+    const isM3u = urlPath.endsWith(".m3u") && !urlPath.endsWith(".m3u8");
 
-    if (isRawTs) {
-      // Pipe through server-side stream proxy to bypass CORS
-      const proxiedUrl = `/api/stream-proxy?url=${encodeURIComponent(channel.streamUrl)}`;
-      video.src = proxiedUrl;
+    const playDirect = (src: string) => {
+      if (!isMountedRef.current) return;
+      video.src = src;
       const onMeta = () => { if (isMountedRef.current) { setIsLoading(false); playVideo(); } };
       const onErr = () => {
         if (!isMountedRef.current) return;
@@ -98,6 +98,49 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
       video.addEventListener("canplay", onMeta, { once: true });
       video.addEventListener("error", onErr, { once: true });
       video.load();
+    };
+
+    if (isM3u) {
+      // Resolve the .m3u playlist server-side to get the real stream URL
+      fetch(`/api/resolve-m3u?url=${encodeURIComponent(channel.streamUrl)}`)
+        .then(r => r.json())
+        .then(data => {
+          if (!isMountedRef.current) return;
+          if (data.streamUrl) {
+            const resolved = data.streamUrl;
+            const resolvedPath = resolved.split("?")[0].toLowerCase();
+            if (resolvedPath.endsWith(".ts")) {
+              playDirect(`/api/stream-proxy?url=${encodeURIComponent(resolved)}`);
+            } else if (Hls.isSupported() && (resolvedPath.endsWith(".m3u8") || resolvedPath.includes("m3u8"))) {
+              const hls = new Hls({ maxMaxBufferLength: 10, enableWorker: true, lowLatencyMode: true });
+              hlsRef.current = hls;
+              hls.loadSource(resolved);
+              hls.attachMedia(video);
+              hls.on(Hls.Events.MANIFEST_PARSED, (_, d) => {
+                if (!isMountedRef.current) return;
+                setQualityLevels(d.levels || []);
+                setCurrentLevel(hls.currentLevel);
+                setIsLoading(false);
+                playVideo();
+              });
+              hls.on(Hls.Events.ERROR, (_, d) => {
+                if (!isMountedRef.current) return;
+                if (d.fatal) { setErrorMsg("Live stream offline or network restricted."); setIsLoading(false); setStreamHealthy(false); hls.destroy(); }
+              });
+            } else {
+              playDirect(resolved);
+            }
+          } else {
+            setErrorMsg("Could not resolve playlist stream.");
+            setIsLoading(false);
+          }
+        })
+        .catch(() => {
+          if (isMountedRef.current) { setErrorMsg("Failed to load playlist."); setIsLoading(false); }
+        });
+    } else if (isRawTs) {
+      // Pipe through server-side stream proxy to bypass CORS
+      playDirect(`/api/stream-proxy?url=${encodeURIComponent(channel.streamUrl)}`);
     } else if (Hls.isSupported()) {
       const hls = new Hls({ maxMaxBufferLength: 10, enableWorker: true, lowLatencyMode: true });
       hlsRef.current = hls;
