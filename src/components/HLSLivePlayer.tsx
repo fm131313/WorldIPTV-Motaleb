@@ -17,6 +17,7 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
+  const mpegtsRef = useRef<any | null>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resolvedStreamUrl = useRef<string | null>(null);
 
@@ -86,20 +87,48 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     const isRawTs = urlPath.endsWith(".ts") && !urlPath.endsWith(".m3u8");
     const isM3u = urlPath.endsWith(".m3u") && !urlPath.endsWith(".m3u8");
 
-    const playDirect = (src: string) => {
+    const destroyMpegts = () => {
+      if (mpegtsRef.current) {
+        try { mpegtsRef.current.destroy(); } catch {}
+        mpegtsRef.current = null;
+      }
+    };
+
+    // Play raw MPEG-TS streams using mpegts.js (MSE-based, works in browser)
+    const playMpegTs = (src: string) => {
       if (!isMountedRef.current) return;
-      video.src = src;
-      const onMeta = () => { if (isMountedRef.current) { setIsLoading(false); playVideo(); } };
-      const onErr = () => {
+      destroyMpegts();
+      const mpegts = (window as any).mpegts;
+      if (!mpegts || !mpegts.isSupported()) {
+        setErrorMsg("Your browser does not support MPEG-TS playback.");
+        setIsLoading(false);
+        return;
+      }
+      const player = mpegts.createPlayer({
+        type: "mpegts",
+        isLive: true,
+        url: src,
+        cors: true,
+      }, {
+        enableWorker: true,
+        liveBufferLatencyChasing: true,
+        liveBufferLatencyMaxLatency: 10,
+        liveBufferLatencyMinRemain: 2,
+      });
+      mpegtsRef.current = player;
+      player.attachMediaElement(video);
+      player.load();
+      player.on(mpegts.Events.ERROR, (_: any, details: any) => {
         if (!isMountedRef.current) return;
         setErrorMsg("Live stream offline or network restricted.");
         setIsLoading(false);
         setStreamHealthy(false);
-      };
-      video.addEventListener("loadedmetadata", onMeta, { once: true });
-      video.addEventListener("canplay", onMeta, { once: true });
-      video.addEventListener("error", onErr, { once: true });
-      video.load();
+      });
+      video.addEventListener("canplay", () => {
+        if (!isMountedRef.current) return;
+        setIsLoading(false);
+        playVideo();
+      }, { once: true });
     };
 
     const loadHls = (src: string) => {
@@ -140,11 +169,15 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
             resolvedStreamUrl.current = resolved;
             const resolvedPath = resolved.split("?")[0].toLowerCase();
             if (resolvedPath.endsWith(".ts")) {
-              playDirect(`/api/stream-proxy?url=${encodeURIComponent(resolved)}`);
+              playMpegTs(`/api/stream-proxy?url=${encodeURIComponent(resolved)}`);
             } else if (Hls.isSupported()) {
               loadHls(resolved);
             } else {
-              playDirect(resolved);
+              // Native fallback (Safari)
+              video.src = resolved;
+              video.addEventListener("canplay", () => { if (isMountedRef.current) { setIsLoading(false); playVideo(); } }, { once: true });
+              video.addEventListener("error", () => { if (isMountedRef.current) { setErrorMsg("Stream unavailable."); setIsLoading(false); } }, { once: true });
+              video.load();
             }
           } else {
             setErrorMsg("Could not resolve playlist stream.");
@@ -155,8 +188,8 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
           if (isMountedRef.current) { setErrorMsg("Failed to load playlist."); setIsLoading(false); }
         });
     } else if (isRawTs) {
-      // Pipe through server-side stream proxy to bypass CORS
-      playDirect(`/api/stream-proxy?url=${encodeURIComponent(channel.streamUrl)}`);
+      // Use mpegts.js to decode MPEG-TS in browser via MSE, proxied for CORS
+      playMpegTs(`/api/stream-proxy?url=${encodeURIComponent(channel.streamUrl)}`);
     } else if (Hls.isSupported()) {
       loadHls(channel.streamUrl);
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
@@ -172,6 +205,7 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     return () => {
       isMountedRef.current = false;
       if (hlsRef.current) { hlsRef.current.destroy(); hlsRef.current = null; }
+      if (mpegtsRef.current) { try { mpegtsRef.current.destroy(); } catch {} mpegtsRef.current = null; }
       try { video.pause(); video.removeAttribute("src"); video.load(); } catch {}
     };
   }, [channel.streamUrl, channel.id]);
