@@ -17,7 +17,6 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
-  const mpegtsRef = useRef<any | null>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resolvedStreamUrl = useRef<string | null>(null);
 
@@ -87,48 +86,38 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     const isRawTs = urlPath.endsWith(".ts") && !urlPath.endsWith(".m3u8");
     const isM3u = urlPath.endsWith(".m3u") && !urlPath.endsWith(".m3u8");
 
-    const destroyMpegts = () => {
-      if (mpegtsRef.current) {
-        try { mpegtsRef.current.destroy(); } catch {}
-        mpegtsRef.current = null;
-      }
-    };
-
-    // Play raw MPEG-TS streams using mpegts.js (MSE-based, works in browser)
-    const playMpegTs = (src: string) => {
+    // Transcode raw .ts streams via FFmpeg on the server → serve as HLS → play via hls.js
+    const startHlsTranscode = (streamUrl: string) => {
       if (!isMountedRef.current) return;
-      destroyMpegts();
-      const mpegts = (window as any).mpegts;
-      if (!mpegts || !mpegts.isSupported()) {
-        setErrorMsg("Your browser does not support MPEG-TS playback.");
-        setIsLoading(false);
-        return;
-      }
-      const player = mpegts.createPlayer({
-        type: "mpegts",
-        isLive: true,
-        url: src,
-        cors: true,
-      }, {
-        enableWorker: true,
-        liveBufferLatencyChasing: true,
-        liveBufferLatencyMaxLatency: 10,
-        liveBufferLatencyMinRemain: 2,
-      });
-      mpegtsRef.current = player;
-      player.attachMediaElement(video);
-      player.load();
-      player.on(mpegts.Events.ERROR, (_: any, details: any) => {
-        if (!isMountedRef.current) return;
-        setErrorMsg("Live stream offline or network restricted.");
-        setIsLoading(false);
-        setStreamHealthy(false);
-      });
-      video.addEventListener("canplay", () => {
-        if (!isMountedRef.current) return;
-        setIsLoading(false);
-        playVideo();
-      }, { once: true });
+      fetch(`/api/hls-transcode/start?url=${encodeURIComponent(streamUrl)}`)
+        .then(r => r.json())
+        .then(({ sessionId }) => {
+          if (!isMountedRef.current || !sessionId) return;
+          const hlsUrl = `/api/hls-transcode/${sessionId}/index.m3u8`;
+          // Poll until FFmpeg has written the first manifest (up to 15s)
+          let attempts = 0;
+          const poll = () => {
+            if (!isMountedRef.current) return;
+            attempts++;
+            fetch(hlsUrl).then(r => {
+              if (!isMountedRef.current) return;
+              if (r.status === 200) {
+                loadHls(hlsUrl);
+              } else if (r.status === 202 && attempts < 30) {
+                setTimeout(poll, 500);
+              } else {
+                setErrorMsg("Stream could not be started. It may be offline.");
+                setIsLoading(false);
+              }
+            }).catch(() => {
+              if (isMountedRef.current) { setErrorMsg("Failed to start stream."); setIsLoading(false); }
+            });
+          };
+          setTimeout(poll, 1000);
+        })
+        .catch(() => {
+          if (isMountedRef.current) { setErrorMsg("Failed to start stream transcode."); setIsLoading(false); }
+        });
     };
 
     const loadHls = (src: string) => {
@@ -169,7 +158,7 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
             resolvedStreamUrl.current = resolved;
             const resolvedPath = resolved.split("?")[0].toLowerCase();
             if (resolvedPath.endsWith(".ts")) {
-              playMpegTs(`/api/stream-proxy?url=${encodeURIComponent(resolved)}`);
+              startHlsTranscode(resolved);
             } else if (Hls.isSupported()) {
               loadHls(resolved);
             } else {
@@ -188,8 +177,8 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
           if (isMountedRef.current) { setErrorMsg("Failed to load playlist."); setIsLoading(false); }
         });
     } else if (isRawTs) {
-      // Use mpegts.js to decode MPEG-TS in browser via MSE, proxied for CORS
-      playMpegTs(`/api/stream-proxy?url=${encodeURIComponent(channel.streamUrl)}`);
+      // Transcode MPEG-TS to HLS server-side via FFmpeg, then play via hls.js
+      startHlsTranscode(channel.streamUrl);
     } else if (Hls.isSupported()) {
       loadHls(channel.streamUrl);
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
@@ -205,7 +194,6 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     return () => {
       isMountedRef.current = false;
       if (hlsRef.current) { hlsRef.current.destroy(); hlsRef.current = null; }
-      if (mpegtsRef.current) { try { mpegtsRef.current.destroy(); } catch {} mpegtsRef.current = null; }
       try { video.pause(); video.removeAttribute("src"); video.load(); } catch {}
     };
   }, [channel.streamUrl, channel.id]);

@@ -8,6 +8,8 @@ import path from "path";
 import fs from "fs";
 import http from "http";
 import https from "https";
+import { spawn, ChildProcess } from "child_process";
+import os from "os";
 import { STABLE_CHANNELS } from "./src/seedChannels";
 import { getWikiTitle } from "./src/channelLogoMap";
 import { IPTVChannel, EPGItem, PlaybackHistory, UserFavorite } from "./src/types";
@@ -730,6 +732,112 @@ async function startServer() {
 
     fetchStream(url);
   });
+
+  // ─── FFmpeg HLS Transcoding ────────────────────────────────────────────────
+  // Accepts any stream URL (including raw .ts), transcodes it to HLS via FFmpeg
+  // with auto-reconnect, outputs segments to /tmp so the browser can play via hls.js
+
+  interface HlsSession {
+    process: ChildProcess;
+    dir: string;
+    lastAccess: number;
+    url: string;
+    cleanupTimer: ReturnType<typeof setInterval>;
+  }
+  const hlsSessions = new Map<string, HlsSession>();
+
+  const stopHlsSession = (sessionId: string) => {
+    const s = hlsSessions.get(sessionId);
+    if (!s) return;
+    clearInterval(s.cleanupTimer);
+    try { s.process.kill("SIGKILL"); } catch {}
+    try { fs.rmSync(s.dir, { recursive: true, force: true }); } catch {}
+    hlsSessions.delete(sessionId);
+  };
+
+  app.get("/api/hls-transcode/start", (req, res) => {
+    const url = req.query.url as string;
+    if (!url || !url.startsWith("http")) return res.status(400).json({ error: "Invalid URL" });
+
+    const sessionId = Math.random().toString(36).slice(2, 10);
+    const dir = path.join(os.tmpdir(), `hls-${sessionId}`);
+    fs.mkdirSync(dir, { recursive: true });
+
+    const args = [
+      "-reconnect", "1",
+      "-reconnect_streamed", "1",
+      "-reconnect_delay_max", "5",
+      "-user_agent", "Mozilla/5.0 (compatible; VistaTV/1.0)",
+      "-i", url,
+      "-c:v", "copy",
+      "-c:a", "aac",
+      "-b:a", "128k",
+      "-f", "hls",
+      "-hls_time", "2",
+      "-hls_list_size", "6",
+      "-hls_flags", "delete_segments+append_list+independent_segments",
+      "-hls_segment_type", "mpegts",
+      "-hls_segment_filename", path.join(dir, "seg%05d.ts"),
+      path.join(dir, "index.m3u8"),
+    ];
+
+    const proc = spawn("ffmpeg", args, { stdio: ["ignore", "pipe", "pipe"] });
+    proc.on("error", (err) => console.error(`[FFmpeg] spawn error for ${sessionId}:`, err.message));
+    proc.stderr?.on("data", (d) => {
+      const line: string = d.toString();
+      if (line.includes("Error") || line.includes("error")) {
+        console.error(`[FFmpeg:${sessionId}]`, line.trim());
+      }
+    });
+
+    const cleanupTimer = setInterval(() => {
+      const s = hlsSessions.get(sessionId);
+      if (!s) return;
+      if (Date.now() - s.lastAccess > 120000) stopHlsSession(sessionId);
+    }, 30000);
+
+    proc.on("exit", () => {
+      // Remove from map when FFmpeg exits so client knows session is gone
+      const s = hlsSessions.get(sessionId);
+      if (s) { clearInterval(s.cleanupTimer); hlsSessions.delete(sessionId); }
+    });
+
+    hlsSessions.set(sessionId, { process: proc, dir, lastAccess: Date.now(), url, cleanupTimer });
+    res.json({ sessionId });
+  });
+
+  app.get("/api/hls-transcode/:sessionId/index.m3u8", (req, res) => {
+    const { sessionId } = req.params;
+    const s = hlsSessions.get(sessionId);
+    if (!s) return res.status(404).end();
+    s.lastAccess = Date.now();
+    const manifestPath = path.join(s.dir, "index.m3u8");
+    if (!fs.existsSync(manifestPath)) return res.status(202).end(); // not ready yet
+    res.setHeader("Content-Type", "application/vnd.apple.mpegurl");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Cache-Control", "no-cache");
+    res.sendFile(manifestPath);
+  });
+
+  app.get("/api/hls-transcode/:sessionId/:seg", (req, res) => {
+    const { sessionId, seg } = req.params;
+    const s = hlsSessions.get(sessionId);
+    if (!s) return res.status(404).end();
+    if (!/^seg\d+\.ts$/.test(seg)) return res.status(400).end();
+    s.lastAccess = Date.now();
+    const segPath = path.join(s.dir, seg);
+    if (!fs.existsSync(segPath)) return res.status(404).end();
+    res.setHeader("Content-Type", "video/mp2t");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Cache-Control", "max-age=30");
+    res.sendFile(segPath);
+  });
+
+  app.delete("/api/hls-transcode/:sessionId", (req, res) => {
+    stopHlsSession(req.params.sessionId);
+    res.status(204).end();
+  });
+  // ─────────────────────────────────────────────────────────────────────────
 
   // Logo proxy — fetches logos server-side to bypass browser CORS restrictions
   app.get("/api/logo-proxy", (req, res) => {
