@@ -677,43 +677,58 @@ async function startServer() {
     }
   });
 
-  // Stream proxy — pipes raw .ts / non-HLS streams server-side to bypass CORS
+  // Stream proxy — pipes raw .ts / non-HLS streams server-side to bypass CORS, follows redirects
   app.get("/api/stream-proxy", (req, res) => {
     const url = req.query.url as string;
     if (!url || !url.startsWith("http")) {
       return res.status(400).end();
     }
 
-    let parsed: URL;
-    try { parsed = new URL(url); } catch { return res.status(400).end(); }
+    let finished = false;
+    const finish = (fn: () => void) => { if (finished) return; finished = true; fn(); };
 
-    const lib = parsed.protocol === "https:" ? https : http;
+    const fetchStream = (targetUrl: string, redirectsLeft = 5) => {
+      let parsed: URL;
+      try { parsed = new URL(targetUrl); } catch { return finish(() => res.status(400).end()); }
 
-    const upstream = lib.get(url, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; VistaTV/1.0)",
-        "Accept": "*/*",
-        ...(req.headers.range ? { "Range": req.headers.range } : {}),
-      },
-      timeout: 10000,
-    }, (upRes) => {
-      const status = upRes.statusCode || 200;
-      res.status(status);
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader("Cache-Control", "no-cache");
+      const lib = parsed.protocol === "https:" ? https : http;
 
-      const ct = upRes.headers["content-type"] || "video/mp2t";
-      res.setHeader("Content-Type", ct);
+      const upstream = lib.get(targetUrl, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (compatible; VistaTV/1.0)",
+          "Accept": "*/*",
+          ...(req.headers.range ? { "Range": req.headers.range } : {}),
+        },
+        timeout: 12000,
+      }, (upRes) => {
+        const status = upRes.statusCode || 200;
 
-      if (upRes.headers["content-range"]) res.setHeader("Content-Range", upRes.headers["content-range"] as string);
-      if (upRes.headers["content-length"]) res.setHeader("Content-Length", upRes.headers["content-length"] as string);
+        // Follow redirects
+        if ([301, 302, 307, 308].includes(status) && upRes.headers.location && redirectsLeft > 0) {
+          upRes.resume();
+          const loc = upRes.headers.location;
+          const next = loc.startsWith("http") ? loc : `${parsed.origin}${loc}`;
+          return fetchStream(next, redirectsLeft - 1);
+        }
 
-      upRes.pipe(res);
-      req.on("close", () => upRes.destroy());
-    });
+        finish(() => {
+          res.status(status);
+          res.setHeader("Access-Control-Allow-Origin", "*");
+          res.setHeader("Cache-Control", "no-cache");
+          const ct = upRes.headers["content-type"] || "video/mp2t";
+          res.setHeader("Content-Type", ct);
+          if (upRes.headers["content-range"]) res.setHeader("Content-Range", upRes.headers["content-range"] as string);
+          if (upRes.headers["content-length"]) res.setHeader("Content-Length", upRes.headers["content-length"] as string);
+          upRes.pipe(res);
+          req.on("close", () => upRes.destroy());
+        });
+      });
 
-    upstream.on("error", () => res.status(502).end());
-    upstream.on("timeout", () => { upstream.destroy(); res.status(504).end(); });
+      upstream.on("error", () => finish(() => res.status(502).end()));
+      upstream.on("timeout", () => { upstream.destroy(); finish(() => res.status(504).end()); });
+    };
+
+    fetchStream(url);
   });
 
   // Logo proxy — fetches logos server-side to bypass browser CORS restrictions

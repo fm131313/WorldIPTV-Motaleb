@@ -18,6 +18,7 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
   const containerRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resolvedStreamUrl = useRef<string | null>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.8);
@@ -57,6 +58,7 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     setQualityLevels([]);
     setCurrentLevel(-1);
     setStreamHealthy(null);
+    resolvedStreamUrl.current = null;
 
     const video = videoRef.current;
     if (!video) return;
@@ -100,6 +102,33 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
       video.load();
     };
 
+    const loadHls = (src: string) => {
+      if (!isMountedRef.current) return;
+      if (hlsRef.current) { hlsRef.current.destroy(); hlsRef.current = null; }
+      const hls = new Hls({ maxMaxBufferLength: 10, enableWorker: true, lowLatencyMode: true });
+      hlsRef.current = hls;
+      hls.loadSource(src);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, (_, d) => {
+        if (!isMountedRef.current) return;
+        setQualityLevels(d.levels || []);
+        setCurrentLevel(hls.currentLevel);
+        setIsLoading(false);
+        playVideo();
+      });
+      hls.on(Hls.Events.LEVEL_SWITCHED, (_, d) => {
+        if (isMountedRef.current) setCurrentLevel(d.level);
+      });
+      hls.on(Hls.Events.ERROR, (_, d) => {
+        if (!isMountedRef.current) return;
+        if (d.fatal) {
+          if (d.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
+          else if (d.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+          else { setErrorMsg("Live stream offline or network restricted."); setIsLoading(false); setStreamHealthy(false); hls.destroy(); }
+        }
+      });
+    };
+
     if (isM3u) {
       // Resolve the .m3u playlist server-side to get the real stream URL
       fetch(`/api/resolve-m3u?url=${encodeURIComponent(channel.streamUrl)}`)
@@ -108,25 +137,12 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
           if (!isMountedRef.current) return;
           if (data.streamUrl) {
             const resolved = data.streamUrl;
+            resolvedStreamUrl.current = resolved;
             const resolvedPath = resolved.split("?")[0].toLowerCase();
             if (resolvedPath.endsWith(".ts")) {
               playDirect(`/api/stream-proxy?url=${encodeURIComponent(resolved)}`);
-            } else if (Hls.isSupported() && (resolvedPath.endsWith(".m3u8") || resolvedPath.includes("m3u8"))) {
-              const hls = new Hls({ maxMaxBufferLength: 10, enableWorker: true, lowLatencyMode: true });
-              hlsRef.current = hls;
-              hls.loadSource(resolved);
-              hls.attachMedia(video);
-              hls.on(Hls.Events.MANIFEST_PARSED, (_, d) => {
-                if (!isMountedRef.current) return;
-                setQualityLevels(d.levels || []);
-                setCurrentLevel(hls.currentLevel);
-                setIsLoading(false);
-                playVideo();
-              });
-              hls.on(Hls.Events.ERROR, (_, d) => {
-                if (!isMountedRef.current) return;
-                if (d.fatal) { setErrorMsg("Live stream offline or network restricted."); setIsLoading(false); setStreamHealthy(false); hls.destroy(); }
-              });
+            } else if (Hls.isSupported()) {
+              loadHls(resolved);
             } else {
               playDirect(resolved);
             }
@@ -142,36 +158,7 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
       // Pipe through server-side stream proxy to bypass CORS
       playDirect(`/api/stream-proxy?url=${encodeURIComponent(channel.streamUrl)}`);
     } else if (Hls.isSupported()) {
-      const hls = new Hls({ maxMaxBufferLength: 10, enableWorker: true, lowLatencyMode: true });
-      hlsRef.current = hls;
-      hls.loadSource(channel.streamUrl);
-      hls.attachMedia(video);
-
-      hls.on(Hls.Events.MANIFEST_PARSED, (_, data) => {
-        if (!isMountedRef.current) return;
-        setQualityLevels(data.levels || []);
-        setCurrentLevel(hls.currentLevel);
-        setIsLoading(false);
-        playVideo();
-      });
-
-      hls.on(Hls.Events.LEVEL_SWITCHED, (_, data) => {
-        if (isMountedRef.current) setCurrentLevel(data.level);
-      });
-
-      hls.on(Hls.Events.ERROR, (_, data) => {
-        if (!isMountedRef.current) return;
-        if (data.fatal) {
-          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
-          else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
-          else {
-            setErrorMsg("Live stream offline or network restricted.");
-            setIsLoading(false);
-            setStreamHealthy(false);
-            hls.destroy();
-          }
-        }
-      });
+      loadHls(channel.streamUrl);
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
       video.src = channel.streamUrl;
       video.addEventListener("loadedmetadata", () => { if (isMountedRef.current) { setIsLoading(false); playVideo(); } });
@@ -208,11 +195,14 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     setIsLoading(true);
     setErrorMsg(null);
     const video = videoRef.current;
-    if (video) {
-      if (hlsRef.current) hlsRef.current.loadSource(channel.streamUrl);
-      else { video.load(); }
-      video.play().then(() => setIsPlaying(true)).catch(() => {});
+    if (!video) return;
+    const srcToLoad = resolvedStreamUrl.current || channel.streamUrl;
+    if (hlsRef.current) {
+      hlsRef.current.loadSource(srcToLoad);
+    } else {
+      video.load();
     }
+    video.play().then(() => setIsPlaying(true)).catch(() => {});
   };
 
   const handleFullscreen = () => {
