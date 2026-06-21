@@ -86,10 +86,14 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
     const isRawTs = urlPath.endsWith(".ts") && !urlPath.endsWith(".m3u8");
     const isM3u = urlPath.endsWith(".m3u") && !urlPath.endsWith(".m3u8");
 
-    // Transcode raw .ts streams via FFmpeg on the server → serve as HLS → play via hls.js
-    const startHlsTranscode = (streamUrl: string) => {
+    // Transcode streams via FFmpeg on the server → serve as HLS → play via hls.js
+    // referrer/ua are forwarded when the CDN requires specific HTTP headers
+    const startHlsTranscode = (streamUrl: string, referrer?: string, ua?: string) => {
       if (!isMountedRef.current) return;
-      fetch(`/api/hls-transcode/start?url=${encodeURIComponent(streamUrl)}`)
+      const params = new URLSearchParams({ url: streamUrl });
+      if (referrer) params.set("referrer", referrer);
+      if (ua) params.set("ua", ua);
+      fetch(`/api/hls-transcode/start?${params.toString()}`)
         .then(r => r.json())
         .then(({ sessionId }) => {
           if (!isMountedRef.current || !sessionId) return;
@@ -157,8 +161,10 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
             const resolved = data.streamUrl;
             resolvedStreamUrl.current = resolved;
             const resolvedPath = resolved.split("?")[0].toLowerCase();
-            if (resolvedPath.endsWith(".ts")) {
-              startHlsTranscode(resolved);
+            const needsHeaders = !!data.referrer;
+            if (resolvedPath.endsWith(".ts") || needsHeaders) {
+              // Raw .ts OR stream requiring specific Referer → transcode via FFmpeg
+              startHlsTranscode(resolved, data.referrer, data.userAgent);
             } else if (Hls.isSupported()) {
               loadHls(resolved);
             } else {

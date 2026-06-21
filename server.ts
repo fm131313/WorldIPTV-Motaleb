@@ -673,7 +673,12 @@ async function startServer() {
       const lines = content.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
       const streamUrl = lines.find(l => l.startsWith("http://") || l.startsWith("https://") || l.startsWith("rtsp://"));
       if (!streamUrl) return res.status(404).json({ error: "No stream found in playlist" });
-      res.json({ streamUrl });
+      // Extract VLC-style header hints (used by streams that need specific Referer/UA)
+      const referrerLine = lines.find(l => l.startsWith("#EXTVLCOPT:http-referrer="));
+      const uaLine = lines.find(l => l.startsWith("#EXTVLCOPT:http-user-agent="));
+      const referrer = referrerLine ? referrerLine.split("=").slice(1).join("=") : undefined;
+      const userAgent = uaLine ? uaLine.split("=").slice(1).join("=") : undefined;
+      res.json({ streamUrl, referrer, userAgent });
     } catch (err: any) {
       res.status(502).json({ error: `Could not fetch playlist: ${err.message}` });
     }
@@ -763,11 +768,21 @@ async function startServer() {
     const dir = path.join(os.tmpdir(), `hls-${sessionId}`);
     fs.mkdirSync(dir, { recursive: true });
 
+    const referrer = req.query.referrer as string | undefined;
+    const ua = (req.query.ua as string | undefined) || "Mozilla/5.0 (compatible; VistaTV/1.0)";
+
+    // Build custom HTTP headers string for FFmpeg if referrer is required by the CDN
+    const extraHeaders = referrer ? `Referer: ${referrer}\r\nUser-Agent: ${ua}\r\n` : undefined;
+
+    const isHlsInput = url.split("?")[0].toLowerCase().endsWith(".m3u8");
+
     const args = [
       "-reconnect", "1",
       "-reconnect_streamed", "1",
       "-reconnect_delay_max", "5",
-      "-user_agent", "Mozilla/5.0 (compatible; VistaTV/1.0)",
+      ...(extraHeaders ? ["-headers", extraHeaders] : ["-user_agent", ua]),
+      // For live HLS: start from the latest segments to avoid fetching already-expired ones
+      ...(isHlsInput ? ["-live_start_index", "-3"] : []),
       "-i", url,
       "-c:v", "copy",
       "-c:a", "aac",
