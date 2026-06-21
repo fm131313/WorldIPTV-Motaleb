@@ -116,7 +116,115 @@ export const STABLE_CHANNELS: IPTVChannel[] = [
     lastChecked: "2026-06-09T04:00:00Z"
   },
 
-  // === SPORTS CHANNELS ===
+  // === FIFA WORLD CUP 2026 CHANNELS ===
+  {
+    id: "wc26-tsports",
+    name: "T Sports",
+    logo: "https://upload.wikimedia.org/wikipedia/en/9/99/T_Sports_logo.png",
+    country: "Bangladesh",
+    countryCode: "BD",
+    category: "FIFA World Cup 2026",
+    language: "Bengali",
+    streamUrl: "http://rgkkw.live:80/live/1Aoen7elp5/IgMJ60tmAa/130714.ts",
+    resolution: "HD",
+    isHealthy: true,
+    lastChecked: "2026-06-21T00:00:00Z"
+  },
+  {
+    id: "wc26-cazetv",
+    name: "Caze TV",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Cazé_TV_logo.svg/1200px-Cazé_TV_logo.svg.png",
+    country: "Brazil",
+    countryCode: "BR",
+    category: "FIFA World Cup 2026",
+    language: "Portuguese",
+    streamUrl: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",
+    resolution: "1080p",
+    isHealthy: true,
+    lastChecked: "2026-06-21T00:00:00Z"
+  },
+  {
+    id: "wc26-beinsports1",
+    name: "beIN Sports 1",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/BeIN_Sports_logo.svg/1200px-BeIN_Sports_logo.svg.png",
+    country: "Qatar",
+    countryCode: "QA",
+    category: "FIFA World Cup 2026",
+    language: "Arabic",
+    streamUrl: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
+    resolution: "HD",
+    isHealthy: true,
+    lastChecked: "2026-06-21T00:00:00Z"
+  },
+  {
+    id: "wc26-fifatv",
+    name: "FIFA TV",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/FIFA_logo_without_slogan.svg/1200px-FIFA_logo_without_slogan.svg.png",
+    country: "Switzerland",
+    countryCode: "CH",
+    category: "FIFA World Cup 2026",
+    language: "English",
+    streamUrl: "https://fifalive.click/iscreen.m3u",
+    resolution: "HD",
+    isHealthy: true,
+    lastChecked: "2026-06-21T00:00:00Z"
+  },
+
+  // === SPORTS CHANNELS (original categories) ===
+  {
+    id: "sports-tsports",
+    name: "T Sports",
+    logo: "https://upload.wikimedia.org/wikipedia/en/9/99/T_Sports_logo.png",
+    country: "Bangladesh",
+    countryCode: "BD",
+    category: "Sports",
+    language: "Bengali",
+    streamUrl: "http://rgkkw.live:80/live/1Aoen7elp5/IgMJ60tmAa/130714.ts",
+    resolution: "HD",
+    isHealthy: true,
+    lastChecked: "2026-06-21T00:00:00Z"
+  },
+  {
+    id: "sports-cazetv",
+    name: "Caze TV",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Cazé_TV_logo.svg/1200px-Cazé_TV_logo.svg.png",
+    country: "Brazil",
+    countryCode: "BR",
+    category: "Sports",
+    language: "Portuguese",
+    streamUrl: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",
+    resolution: "1080p",
+    isHealthy: true,
+    lastChecked: "2026-06-21T00:00:00Z"
+  },
+  {
+    id: "sports-beinsports1",
+    name: "beIN Sports 1",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/BeIN_Sports_logo.svg/1200px-BeIN_Sports_logo.svg.png",
+    country: "Qatar",
+    countryCode: "QA",
+    category: "Sports",
+    language: "Arabic",
+    streamUrl: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
+    resolution: "HD",
+    isHealthy: true,
+    lastChecked: "2026-06-21T00:00:00Z"
+  },
+  {
+    id: "sports-fifatv",
+    name: "FIFA TV",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/FIFA_logo_without_slogan.svg/1200px-FIFA_logo_without_slogan.svg.png",
+    country: "Switzerland",
+    countryCode: "CH",
+    category: "Sports",
+    language: "English",
+    streamUrl: "https://fifalive.click/iscreen.m3u",
+    resolution: "HD",
+    isHealthy: true,
+    lastChecked: "2026-06-21T00:00:00Z"
+  },
+
+  // === OTHER SPORTS CHANNELS ===
   {
     id: "sports-redbull",
     name: "Red Bull TV",

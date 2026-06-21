@@ -296,7 +296,11 @@ async function startServer() {
     const categoryList = Object.entries(tally).map(([name, count]) => ({
       name,
       count
-    })).sort((a, b) => b.count - a.count); // Sorted by size
+    })).sort((a, b) => {
+      if (a.name === "FIFA World Cup 2026") return -1;
+      if (b.name === "FIFA World Cup 2026") return 1;
+      return b.count - a.count;
+    });
 
     res.json(categoryList);
   });
