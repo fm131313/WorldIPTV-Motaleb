@@ -647,6 +647,45 @@ async function startServer() {
     }
   });
 
+  // Stream proxy — pipes raw .ts / non-HLS streams server-side to bypass CORS
+  app.get("/api/stream-proxy", (req, res) => {
+    const url = req.query.url as string;
+    if (!url || !url.startsWith("http")) {
+      return res.status(400).end();
+    }
+
+    let parsed: URL;
+    try { parsed = new URL(url); } catch { return res.status(400).end(); }
+
+    const lib = parsed.protocol === "https:" ? https : http;
+
+    const upstream = lib.get(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; VistaTV/1.0)",
+        "Accept": "*/*",
+        ...(req.headers.range ? { "Range": req.headers.range } : {}),
+      },
+      timeout: 10000,
+    }, (upRes) => {
+      const status = upRes.statusCode || 200;
+      res.status(status);
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Cache-Control", "no-cache");
+
+      const ct = upRes.headers["content-type"] || "video/mp2t";
+      res.setHeader("Content-Type", ct);
+
+      if (upRes.headers["content-range"]) res.setHeader("Content-Range", upRes.headers["content-range"] as string);
+      if (upRes.headers["content-length"]) res.setHeader("Content-Length", upRes.headers["content-length"] as string);
+
+      upRes.pipe(res);
+      req.on("close", () => upRes.destroy());
+    });
+
+    upstream.on("error", () => res.status(502).end());
+    upstream.on("timeout", () => { upstream.destroy(); res.status(504).end(); });
+  });
+
   // Logo proxy — fetches logos server-side to bypass browser CORS restrictions
   app.get("/api/logo-proxy", (req, res) => {
     const url = req.query.url as string;

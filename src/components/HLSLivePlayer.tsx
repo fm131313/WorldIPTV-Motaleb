@@ -79,7 +79,26 @@ export default function HLSLivePlayer({ channel, onPlaySuccess, onStreamStatusCh
       }
     };
 
-    if (Hls.isSupported()) {
+    // Detect raw MPEG-TS streams (end in .ts, not .m3u8) — route via server proxy
+    const urlPath = channel.streamUrl.split("?")[0].toLowerCase();
+    const isRawTs = urlPath.endsWith(".ts") && !urlPath.endsWith(".m3u8");
+
+    if (isRawTs) {
+      // Pipe through server-side stream proxy to bypass CORS
+      const proxiedUrl = `/api/stream-proxy?url=${encodeURIComponent(channel.streamUrl)}`;
+      video.src = proxiedUrl;
+      const onMeta = () => { if (isMountedRef.current) { setIsLoading(false); playVideo(); } };
+      const onErr = () => {
+        if (!isMountedRef.current) return;
+        setErrorMsg("Live stream offline or network restricted.");
+        setIsLoading(false);
+        setStreamHealthy(false);
+      };
+      video.addEventListener("loadedmetadata", onMeta, { once: true });
+      video.addEventListener("canplay", onMeta, { once: true });
+      video.addEventListener("error", onErr, { once: true });
+      video.load();
+    } else if (Hls.isSupported()) {
       const hls = new Hls({ maxMaxBufferLength: 10, enableWorker: true, lowLatencyMode: true });
       hlsRef.current = hls;
       hls.loadSource(channel.streamUrl);
